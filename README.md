@@ -13,6 +13,7 @@ This project implements a comprehensive PostgreSQL database system for managing 
 ## Table of Contents
 - [Database Structure](#database-structure)
 - [Entity Relationship Diagram](#entity-relationship-diagram)
+- [Entity and Relationship Overview](#entity-and-relationship-overview)
 - [Data Population Methods](#data-population-methods)
 - [Backup and Restore](#backup-and-restore)
 - [Project Structure](#project-structure)
