@@ -39,6 +39,47 @@ The database consists of 14 interconnected tables that model the following entit
 
 Each entity contains multiple attributes that describe various aspects of the hospital logistics system, with appropriate relationships established between entities to maintain data integrity and functionality.
 
+## Entity and Relationship Overview
+
+### Warehouse
+There are two specialized types of warehouses in the system: **Drug Warehouses** and **Equipment Warehouses**, both inheriting from the base `Warehouse` entity.  
+Each type includes attributes relevant to its function, such as cooling capacity, physical dimensions, and daily audit schedules.
+
+### Drug
+Represents a single type of drug (not individual units).  
+Each drug type can exist in multiple warehouses, in unlimited quantities.  
+Within a warehouse, different batches of the same drug are distinguished by the `since` attribute (entry date), allowing for expiration management and FIFO stock handling.
+
+### Medical_Equipment
+Represents a single type of medical equipment.  
+Like drugs, each equipment type can be stored in multiple warehouses in unlimited quantities.  
+There is no differentiation by entry date—only by type and amount.
+
+### Department
+Each department in the hospital can submit orders for drugs or equipment.  
+Orders cannot exist independently and must be associated with a department.  
+This makes `Order` a **weak entity**, fully dependent on the existence of a `Department`.
+
+### Order
+An order may include both drug items and equipment items.  
+Each order item is uniquely identified by a combination of:
+- `Order ID`
+- `Department ID`
+- `Drug ID` or `Equipment ID`  
+This ensures proper tracking of each specific item within a given order.
+
+### Logistic_Worker
+A logistic worker may be assigned to multiple departments, and each department may have multiple workers.  
+This many-to-many relationship is managed via the `Works_for` table, which includes the number of hours worked in each department.
+
+### Has_Access
+This table manages access rights between logistic workers and warehouses.  
+Each warehouse can have multiple workers with access, and each worker can access multiple warehouses.  
+An optional `level` attribute can represent the level of access or permissions granted.
+
+
+
+
 ## Entity Relationship Diagram
 
 The system is designed according to the following Entity-Relationship models:
