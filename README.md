@@ -1,13 +1,19 @@
 # Hospital Medical Equipment Logistics System
 
+## Submitted by:
+- **Student Name 1:** Hananel Kidron ID: 214262305
+- **Student Name 2:** Eitan Klein ID: 215013186
+
+**System**: Hospital Management System  
+**Selected Unit**: Medical Equipment Logistics Division
+
 ## Overview
 This project implements a comprehensive PostgreSQL database system for managing hospital logistics operations, with a specific focus on medical equipment and supplies. The system tracks the flow of medical equipment and drugs between departments and warehouses, manages orders, monitors inventory levels, and coordinates logistics personnel activities.
 
 ## Table of Contents
 - [Database Structure](#database-structure)
 - [Entity Relationship Diagram](#entity-relationship-diagram)
-- [Setup Instructions](#setup-instructions)
-- [Data Population](#data-population)
+- [Data Population Methods](#data-population-methods)
 - [Backup and Restore](#backup-and-restore)
 - [Project Structure](#project-structure)
 - [Project Phases](#project-phases)
@@ -18,8 +24,8 @@ The database consists of 14 interconnected tables that model the following entit
 
 1. **Department** - Hospital departments that place orders for medical supplies
 2. **Order** - Department requests for medical equipment and drugs
-3. **Medical Equipment** - Information about available medical devices and their specifications
-4. **Drug** - Pharmaceutical products stocked and ordered by departments
+3. **Medical Equipment** - Comprehensive catalog of all medical devices and their specifications, regardless of current inventory status
+4. **Drug** - Complete database of all pharmaceutical products that could be ordered by departments, including those not currently in stock
 5. **Equipment_order_item** - Details of equipment items in department orders
 6. **Drug_order_item** - Details of drug items in department orders
 7. **Warehouse** - Storage facilities for medical supplies and equipment
@@ -35,98 +41,131 @@ Each entity contains multiple attributes that describe various aspects of the ho
 
 ## Entity Relationship Diagram
 
-The system is designed according to the following Entity-Relationship model:
+The system is designed according to the following Entity-Relationship models:
 
-![ER Diagram](ERD_diagram.png)
+### Entity Relationship Diagram (ERD)
+![ER Diagram](./stage1/ERD_DSD/ERD.jpg)
 
-*Note: The ER diagram is included in the repository and visualizes the relationships between all entities in the database system.*
+### Data Structure Diagram (DSD)
+![DS Diagram](./stage1/ERD_DSD/DSD.jpg)
 
-## Setup Instructions
+*Note: These diagrams visualize the relationships between all entities in the database system and were created using ERDPlus.*
 
-### Prerequisites
-- PostgreSQL 14.0 or higher
-- psql command-line tool or pgAdmin 4
+## Data Population Methods
 
-### Database Creation
+The database has been populated using three different data insertion methods as required:
 
-1. Clone the repository:
-```bash
-git clone https://github.com/yourusername/hospital-logistics-db.git
-cd hospital-logistics-db
-```
+### 1. Mockaroo Data Generation
 
-2. Connect to PostgreSQL:
-```bash
-psql -U postgres
-```
+We used Mockaroo to generate structured random data for several tables, including:
 
-3. Create a new database:
-```sql
-CREATE DATABASE hospital_logistics;
-\c hospital_logistics
-```
+#### Drug Table
+![Drug Mockaroo Build](./stage1/Data/mockaroo/drug/drug_mockaroo_build.jpg)
+![Drug Upload Screenshot](./stage1/Data/mockaroo/drug/drug_upload_screen_shot.jpg)
+![Database Upload Successful](./stage1/Data/mockaroo/drug/general_worked.jpg)
 
-4. Run the table creation script:
-```bash
-psql -U postgres -d hospital_logistics -f createTables.sql
-```
+#### Logistic Worker Table
+![Logistic Worker Mockaroo Build](./stage1/Data/mockaroo/logistic_worker/logistic_worker_mockaroo_build.jpg)
+![Logistic Worker Upload Screenshot](./stage1/Data/mockaroo/logistic_worker/logistic_worker_upload_screen_shot.jpg)
+![Database Upload Successful](./stage1/Data/mockaroo/logistic_worker/general_worked.jpg)
 
-## Data Population
+### 2. CSV Import
 
-The database is populated with realistic test data using three different methods:
+We imported data directly from prepared CSV files for tables such as Has_access:
+![Has Access CSV Upload](./stage1/Data/csv_upload/has_access_upload_screen_shot.jpg)
+![Has Access Upload Successful](./stage1/Data/csv_upload/has_access_upload_screen_shot_worked.jpg)
 
-1. **Mockaroo Data Generation** - Utilizing Mockaroo to generate structured random data
-2. **Python Script Generation** - Custom Python scripts to create test data with appropriate relationships
-3. **CSV/Excel Imports** - Data imported from prepared spreadsheets
+### 3. Python Scripts
 
-Each table contains at least 400 records to enable meaningful query testing and analysis.
+We created custom Python scripts to generate data for multiple tables. Our scripts ensure proper relationships between entities and generate the required volume of data (at least 400 records per table).
 
-### Sample Data Loading
-
-To load the sample data into your database:
-
-```bash
-psql -U postgres -d hospital_logistics -f insertTables.sql
-```
+Python scripts were created for the following tables:
+- Department
+- Order
+- Drug_in_stock
+- Drug_order_item
+- Equipment_in_stock
+- Equipment_order_item
+- Medical_equipment
+- Medical_equipment_warehouse
+- Warehouse
+- Works_for
+- Drugs_warehouse
 
 ## Backup and Restore
 
-The database is backed up regularly using PostgreSQL's built-in utilities.
+### Database Backup
 
-### Creating a Backup
-```bash
-pg_dump -U postgres hospital_logistics > backup_YYYYMMDD.sql
-```
+We performed database backup using PostgreSQL's built-in utilities to ensure data preservation.
 
-### Restoring from Backup
-```bash
-psql -U postgres -d hospital_logistics -f backup_YYYYMMDD.sql
-```
+![Backup Operation Screenshot](./stage1/Backup/Screenshot_of_the_backup_operation.jpg)
 
-The backup process has been tested on separate systems to ensure data integrity and recoverability.
+### Database Restoration
+
+We verified the backup integrity by successfully restoring it on a different system:
+
+![Restore Operation Screenshot 1](./stage1/Backup/Screenshot_of_the_restore_operation1.png)
+![Restore Operation Screenshot 2](./stage1/Backup/Screenshot_of_the_restore_operation2.png)
+![Restore Operation Screenshot 3](./stage1/Backup/Screenshot_of_the_restore_operation3.png)
+
+The backup file `second_backup_02052025` was successfully restored, confirming the validity of our backup process.
 
 ## Project Structure
 
 The repository is organized as follows:
 
 ```
-DBProject/
-├── שלב א/
-│   ├── ERD.png
-│   ├── DSD.png
-│   ├── createTables.sql
-│   ├── dropTables.sql
-│   ├── insertTables.sql
-│   ├── selectAll.sql
-│   ├── DataImportFiles/
-│   │   └── [CSV and configuration files]
-│   ├── Programming/
-│   │   └── [Python scripts for data generation]
-│   ├── mockarooFiles/
-│   │   └── [Mockaroo-generated SQL files]
-│   └── backup_YYYYMMDD.sql
+Project Structure:
+│
 ├── README.md
-└── [Additional project phase directories]
+│
+└── stage1/
+    ├── Backup/
+    │   ├── Screenshot_of_the_backup_operation.jpg
+    │   ├── Screenshot_of_the_restore_operation1.png
+    │   ├── Screenshot_of_the_restore_operation2.png
+    │   ├── Screenshot_of_the_restore_operation3.png
+    │   └── second_backup_02052025
+    │
+    ├── Data/
+    │   ├── csv_upload/
+    │   │   ├── has_access.csv
+    │   │   ├── has_access_upload_screen_shot.jpg
+    │   │   └── has_access_upload_screen_shot_worked.jpg
+    │   │
+    │   ├── mockaroo/
+    │   │   ├── drug/
+    │   │   │   ├── drug_mockaroo_build.jpg
+    │   │   │   ├── drug_upload_screen_shot.jpg
+    │   │   │   └── general_worked.jpg
+    │   │   │
+    │   │   └── logistic_worker/
+    │   │       ├── general_worked.jpg
+    │   │       ├── logistic_worker_mockaroo_build.jpg
+    │   │       └── logistic_worker_upload_screen_shot.jpg
+    │   │
+    │   └── python_scripts/
+    │       ├── Department.py
+    │       ├── Drugs_warehouse.py
+    │       ├── Drug_in_stock.py
+    │       ├── Drug_order_item.py
+    │       ├── equipment_in_stock.py
+    │       ├── equipment_order_item.py
+    │       ├── medical_equipment.py
+    │       ├── medical_equipment_warehouse.py
+    │       ├── Order.py
+    │       ├── warehouse.py
+    │       └── works_for.py
+    │
+    ├── ERD_DSD/
+    │   ├── DSD.jpg
+    │   └── ERD.jpg
+    │
+    └── Ganeric_actions/
+        ├── createTable.sql
+        ├── dropTables.sql
+        ├── insertTables.sql
+        └── selectAll.sql
 ```
 
 ## Project Phases
