@@ -423,8 +423,6 @@ stage2/
 
 ![לפני העדכון](./stage2/Queries/updateOldUrgent/Before.jpg)
 
-![שאילתת עדכון](./stage2/Queries/updateOldUrgent/update.sql)
-
 ![אחרי העדכון](./stage2/Queries/updateOldUrgent/After.jpg)
 
 ### 2. Update Popular Drugs
@@ -434,8 +432,6 @@ stage2/
 שאילתה זו מגדילה את רמות המלאי עבור תרופות שמוזמנות בתדירות גבוהה. המערכת מגדילה באופן אוטומטי את כמויות המלאי של תרופות שמופיעות במספר רב של הזמנות.
 
 ![לפני העדכון](./stage2/Queries/updatePopularDrugs/Before.jpg)
-
-![שאילתת עדכון](./stage2/Queries/updatePopularDrugs/update.sql)
 
 ![אישור העדכון](./stage2/Queries/updatePopularDrugs/Done.jpg)
 
@@ -449,49 +445,13 @@ stage2/
 
 ![לפני העדכון](./stage2/Queries/updateUrgentOrders/Before.jpg)
 
-![שאילתת עדכון](./stage2/Queries/updateUrgentOrders/update.sql)
-
 ![אישור העדכון](./stage2/Queries/updateUrgentOrders/Done.jpg)
 
-![אחרי העדכון](./stage2/Queries/updateUrgentOrders/After.jpg).sql)
+![אחרי העדכון](./stage2/Queries/updateUrgentOrders/After.jpg)
 
-![Confirmation](stage2/Queries/updateUrgentOrders/Done.jpg)
+## Delete Operations
 
-![After Update](stage2/Queries/updateUrgentOrders/After.jpg)ס הנתונים לאחר העדכון](.\stage2\Queries\updateOldUrgent\After.jpg)
-
-### 2. Update Popular Drugs
-
-**מעלה את כמות התרופה במלאי אוטומטית עבור תרופות פופולריות**
-
-שאילתה זו מגדילה את רמות המלאי עבור תרופות שמוזמנות בתדירות גבוהה. המערכת מגדילה באופן אוטומטי את כמויות המלאי של תרופות שמופיעות במספר רב של הזמנות כדי להבטיח אספקה מספקת לפריטים בביקוש גבוה.
-
-![מצב בסיס הנתונים לפני העדכון](.\stage2\Queries\updatePopularDrugs\Before.jpg)
-
-![ביצוע שאילתת העדכון](.\stage2\Queries\updatePopularDrugs\update.sql)
-
-![אישור העדכון](.\stage2\Queries\updatePopularDrugs\Done.jpg)
-
-![מצב בסיס הנתונים לאחר העדכון](.\stage2\Queries\updatePopularDrugs\After.jpg)
-
-### 3. Update Urgent Orders
-
-**עדכון של מצב פריט ההזמנה למאושר עבור כל פריטי ההזמנה הדחופים שהוגשו על ידי מחלקות דחופות באופן ישיר**
-
-שאילתה זו מאשרת באופן אוטומטי פריטי הזמנה דחופים שהוגשו על ידי מחלקות חירום. פעולה זו מייעלת את תהליך האישור עבור בקשות רגישות לזמן ממחלקות טיפול קריטי, ומוודאת שהמחלקות הקריטיות ביותר בבית החולים מקבלות שירות מהיר ויעיל.
-
-![מצב בסיס הנתונים לפני העדכון](.\stage2\Queries\updateUrgentOrders\Before.jpg)
-
-![ביצוע שאילתת העדכון](.\stage2\Queries\updateUrgentOrders\update.sql)
-
-![אישור העדכון](.\stage2\Queries\updateUrgentOrders\Done.jpg)
-
-![מצב בסיס הנתונים לאחר העדכון](.\stage2\Queries\updateUrgentOrders\After.jpg)/deleteAllDelivered%20Orders/delete.sql)
-
-![אישור המחיקה](./stage2/Queries/deleteAllDelivered%20Orders/Done.jpg)
-
-![מצב בסיס הנתונים לאחר המחיקה](./stage2/Queries/deleteAllDelivered%20Orders/After.jpg)
-
-### 2. Delete Expired Orders
+### 1. Delete Expired Orders
 
 **מחיקה של כל ההזמנות (כולל תתי הזמנות) של כל ההזמנות שעברו שבועיים מעת הגשתם**
 
@@ -499,13 +459,11 @@ stage2/
 
 ![Before Deletion](stage2/Queries/deleteExpiredOrders/Before.jpg)
 
-![Delete Query](stage2/Queries/deleteExpiredOrders/delete.sql)
-
 ![Confirmation](stage2/Queries/deleteExpiredOrders/Done.jpg)
 
 ![After Deletion](stage2/Queries/deleteExpiredOrders/After.jpg)
 
-### 3. Delete Workers Without Warehouse Access
+### 2. Delete Workers Without Warehouse Access
 
 **מחיקת כל העובדים ללא גישה לשום מחסן**
 
@@ -513,53 +471,26 @@ stage2/
 
 ![Before Deletion](stage2/Queries/deleteNoAccessWorkers/Before.jpg)
 
-![Delete Query](stage2/Queries/deleteNoAccessWorkers/delete.sql)
-
 ![Confirmation](stage2/Queries/deleteNoAccessWorkers/Done.jpg)
 
 ![After Deletion](stage2/Queries/deleteNoAccessWorkers/After.jpg)
 
-## UPDATE Operations
 
-### 1. Update Old Urgent Items
+### 3. Delete delivered orders
 
-**עדכון של מצב פריט ההזמנה למאושר עבור כל פריטי ההזמנה הדחופים שהוגשו לפני שלושה ימים ולא אושרו (אפשר גם עבור ציוד רפואי)**
+**מחיקת כל ההזמנות שכל תתי ההזמנות שבהן סופקו**
 
-שאילתה זו מאשרת באופן אוטומטי פריטי הזמנה דחופים שהוגשו לפני יותר משלושה ימים אך טרם אושרו. פעולה זו מבטיחה שפריטים קריטיים לא נתקעים בתהליך האישור ומקבלים טיפול גם אם נשכחו.
+כל הזמנה מורכבת מתתי הזמנות שונות. כל תת הזמנה יכולה להיות בסטטוס של ממתינה לאישור מאושרת ונשלחה.
+אם המערכת זיהתה שיש הזמנה שכל תתי ההזמנות שבה כבר נשלחו אין טעם לשמור את ההזמנה לכן היא וכל תתי ההזמנות
+שבה נמחקות.
 
-![מצב בסיס הנתונים לפני העדכון](./stage2/Queries/updateOldUrgent/Before.jpg)
 
-![ביצוע שאילתת העדכון](./stage2/Queries/updateOldUrgent/update.sql)
+![Before Deletion](stage2/Queries/deleteAllDelivered Orders/Before.jpg)
 
-![מצב בסיס הנתונים לאחר העדכון](./stage2/Queries/updateOldUrgent/After.jpg)
+![Confirmation](stage2/Queries/deleteAllDelivered Orders/Done.jpg)
 
-### 2. Update Popular Drugs
+![After Deletion](stage2/Queries/deleteAllDelivered Orders/After.jpg)
 
-**מעלה את כמות התרופה במלאי אוטומטית עבור תרופות פופולריות**
-
-שאילתה זו מגדילה את רמות המלאי עבור תרופות שמוזמנות בתדירות גבוהה. המערכת מגדילה באופן אוטומטי את כמויות המלאי של תרופות שמופיעות במספר רב של הזמנות כדי להבטיח אספקה מספקת לפריטים בביקוש גבוה.
-
-![מצב בסיס הנתונים לפני העדכון](./stage2/Queries/updatePopularDrugs/Before.jpg)
-
-![ביצוע שאילתת העדכון](./stage2/Queries/updatePopularDrugs/update.sql)
-
-![אישור העדכון](./stage2/Queries/updatePopularDrugs/Done.jpg)
-
-![מצב בסיס הנתונים לאחר העדכון](./stage2/Queries/updatePopularDrugs/After.jpg)
-
-### 3. Update Urgent Orders
-
-**עדכון של מצב פריט ההזמנה למאושר עבור כל פריטי ההזמנה הדחופים שהוגשו על ידי מחלקות דחופות באופן ישיר**
-
-שאילתה זו מאשרת באופן אוטומטי פריטי הזמנה דחופים שהוגשו על ידי מחלקות חירום. פעולה זו מייעלת את תהליך האישור עבור בקשות רגישות לזמן ממחלקות טיפול קריטי, ומוודאת שהמחלקות הקריטיות ביותר בבית החולים מקבלות שירות מהיר ויעיל.
-
-![מצב בסיס הנתונים לפני העדכון](./stage2/Queries/updateUrgentOrders/Before.jpg)
-
-![ביצוע שאילתת העדכון](./stage2/Queries/updateUrgentOrders/update.sql)
-
-![אישור העדכון](./stage2/Queries/updateUrgentOrders/Done.jpg)
-
-![מצב בסיס הנתונים לאחר העדכון](./stage2/Queries/updateUrgentOrders/After.jpg)
 
 ## Constraints
 
