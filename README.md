@@ -485,11 +485,11 @@ stage2/
 שבה נמחקות.
 
 
-![Before Deletion](stage2/Queries/deleteAllDelivered Orders/Before.jpg)
+![Before Deletion](stage2/Queries/deleteAllDeliveredOrders/Before.jpg)
 
-![Confirmation](stage2/Queries/deleteAllDelivered Orders/Done.jpg)
+![Confirmation](stage2/Queries/deleteAllDeliveredOrders/Done.jpg)
 
-![After Deletion](stage2/Queries/deleteAllDelivered Orders/After.jpg)
+![After Deletion](stage2/Queries/deleteAllDeliveredOrders/After.jpg)
 
 
 ## Constraints
