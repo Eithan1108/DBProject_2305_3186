@@ -419,41 +419,41 @@ stage2/
 
 **עדכון של מצב פריט ההזמנה למאושר עבור כל פריטי ההזמנה הדחופים שהוגשו לפני שלושה ימים ולא אושרו (אפשר גם עבור ציוד רפואי)**
 
-שאילתה זו מאשרת באופן אוטומטי פריטי הזמנה דחופים שהוגשו לפני יותר משלושה ימים אך טרם אושרו. פעולה זו מבטיחה שפריטים קריטיים לא נתקעים בתהליך האישור ומקבלים טיפול גם אם נשכחו.
+שאילתה זו מאשרת באופן אוטומטי פריטי הזמנה דחופים שהוגשו לפני יותר משלושה ימים אך טרם אושרו. פעולה זו מבטיחה שפריטים קריטיים לא נתקעים בתהליך האישור.
 
-![Before Update](./stage2/Queries/updateOldUrgent/Before.jpg)
+![לפני העדכון](./stage2/Queries/updateOldUrgent/Before.jpg)
 
-![Update Query](./stage2/Queries/updateOldUrgent/update.sql)
+![שאילתת עדכון](./stage2/Queries/updateOldUrgent/update.sql)
 
-![After Update](./stage2/Queries/updateOldUrgent/After.jpg)
+![אחרי העדכון](./stage2/Queries/updateOldUrgent/After.jpg)
 
 ### 2. Update Popular Drugs
 
 **מעלה את כמות התרופה במלאי אוטומטית עבור תרופות פופולריות**
 
-שאילתה זו מגדילה את רמות המלאי עבור תרופות שמוזמנות בתדירות גבוהה. המערכת מגדילה באופן אוטומטי את כמויות המלאי של תרופות שמופיעות במספר רב של הזמנות כדי להבטיח אספקה מספקת לפריטים בביקוש גבוה.
+שאילתה זו מגדילה את רמות המלאי עבור תרופות שמוזמנות בתדירות גבוהה. המערכת מגדילה באופן אוטומטי את כמויות המלאי של תרופות שמופיעות במספר רב של הזמנות.
 
-![Before Update](./stage2/Queries/updatePopularDrugs/Before.jpg)
+![לפני העדכון](./stage2/Queries/updatePopularDrugs/Before.jpg)
 
-![Update Query](./stage2/Queries/updatePopularDrugs/update.sql)
+![שאילתת עדכון](./stage2/Queries/updatePopularDrugs/update.sql)
 
-![Confirmation](./stage2/Queries/updatePopularDrugs/Done.jpg)
+![אישור העדכון](./stage2/Queries/updatePopularDrugs/Done.jpg)
 
-![After Update](./stage2/Queries/updatePopularDrugs/After.jpg)
+![אחרי העדכון](./stage2/Queries/updatePopularDrugs/After.jpg)
 
 ### 3. Update Urgent Orders
 
 **עדכון של מצב פריט ההזמנה למאושר עבור כל פריטי ההזמנה הדחופים שהוגשו על ידי מחלקות דחופות באופן ישיר**
 
-שאילתה זו מאשרת באופן אוטומטי פריטי הזמנה דחופים שהוגשו על ידי מחלקות חירום. פעולה זו מייעלת את תהליך האישור עבור בקשות רגישות לזמן ממחלקות טיפול קריטי, ומוודאת שהמחלקות הקריטיות ביותר בבית החולים מקבלות שירות מהיר ויעיל.
+שאילתה זו מאשרת באופן אוטומטי פריטי הזמנה דחופים שהוגשו על ידי מחלקות חירום. פעולה זו מייעלת את תהליך האישור עבור בקשות רגישות לזמן ממחלקות טיפול קריטי.
 
-![Before Update](./stage2/Queries/updateUrgentOrders/Before.jpg)
+![לפני העדכון](./stage2/Queries/updateUrgentOrders/Before.jpg)
 
-![Update Query](./stage2/Queries/updateUrgentOrders/update.sql)
+![שאילתת עדכון](./stage2/Queries/updateUrgentOrders/update.sql)
 
-![Confirmation](./stage2/Queries/updateUrgentOrders/Done.jpg)
+![אישור העדכון](./stage2/Queries/updateUrgentOrders/Done.jpg)
 
-![After Update](./stage2/Queries/updateUrgentOrders/After.jpg).sql)
+![אחרי העדכון](./stage2/Queries/updateUrgentOrders/After.jpg).sql)
 
 ![Confirmation](stage2/Queries/updateUrgentOrders/Done.jpg)
 
