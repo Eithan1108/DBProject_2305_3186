@@ -1,7 +1,7 @@
 UPDATE Drug_order_item
 SET status = 'approved'
 WHERE is_urgent = TRUE
-  AND status <> 'approved'
+  AND status IN ('pending', 'waiting')
   AND order_id IN (
       SELECT order_id
       FROM "Order"
