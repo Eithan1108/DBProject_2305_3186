@@ -421,11 +421,11 @@ stage2/
 
 שאילתה זו מאשרת באופן אוטומטי פריטי הזמנה דחופים שהוגשו לפני יותר משלושה ימים אך טרם אושרו. פעולה זו מבטיחה שפריטים קריטיים לא נתקעים בתהליך האישור ומקבלים טיפול גם אם נשכחו.
 
-![מצב בסיס הנתונים לפני העדכון](./stage2/Queries/updateOldUrgent/Before.jpg)
+![Before Update](stage2/Queries/updateOldUrgent/Before.jpg)
 
-![ביצוע שאילתת העדכון](./stage2/Queries/updateOldUrgent/update.sql)
+![Update Query](stage2/Queries/updateOldUrgent/update.sql)
 
-![מצב בסיס הנתונים לאחר העדכון](./stage2/Queries/updateOldUrgent/After.jpg)
+![After Update](stage2/Queries/updateOldUrgent/After.jpg)
 
 ### 2. Update Popular Drugs
 
@@ -433,13 +433,13 @@ stage2/
 
 שאילתה זו מגדילה את רמות המלאי עבור תרופות שמוזמנות בתדירות גבוהה. המערכת מגדילה באופן אוטומטי את כמויות המלאי של תרופות שמופיעות במספר רב של הזמנות כדי להבטיח אספקה מספקת לפריטים בביקוש גבוה.
 
-![מצב בסיס הנתונים לפני העדכון](./stage2/Queries/updatePopularDrugs/Before.jpg)
+![Before Update](stage2/Queries/updatePopularDrugs/Before.jpg)
 
-![ביצוע שאילתת העדכון](./stage2/Queries/updatePopularDrugs/update.sql)
+![Update Query](stage2/Queries/updatePopularDrugs/update.sql)
 
-![אישור העדכון](./stage2/Queries/updatePopularDrugs/Done.jpg)
+![Confirmation](stage2/Queries/updatePopularDrugs/Done.jpg)
 
-![מצב בסיס הנתונים לאחר העדכון](./stage2/Queries/updatePopularDrugs/After.jpg)
+![After Update](stage2/Queries/updatePopularDrugs/After.jpg)
 
 ### 3. Update Urgent Orders
 
@@ -447,13 +447,13 @@ stage2/
 
 שאילתה זו מאשרת באופן אוטומטי פריטי הזמנה דחופים שהוגשו על ידי מחלקות חירום. פעולה זו מייעלת את תהליך האישור עבור בקשות רגישות לזמן ממחלקות טיפול קריטי, ומוודאת שהמחלקות הקריטיות ביותר בבית החולים מקבלות שירות מהיר ויעיל.
 
-![מצב בסיס הנתונים לפני העדכון](./stage2/Queries/updateUrgentOrders/Before.jpg)
+![Before Update](stage2/Queries/updateUrgentOrders/Before.jpg)
 
-![ביצוע שאילתת העדכון](./stage2/Queries/updateUrgentOrders/update.sql)
+![Update Query](stage2/Queries/updateUrgentOrders/update.sql)
 
-![אישור העדכון](./stage2/Queries/updateUrgentOrders/Done.jpg)
+![Confirmation](stage2/Queries/updateUrgentOrders/Done.jpg)
 
-![מצב בסיס הנתונים לאחר העדכון](./stage2/Queries/updateUrgentOrders/After.jpg)ס הנתונים לאחר העדכון](.\stage2\Queries\updateOldUrgent\After.jpg)
+![After Update](stage2/Queries/updateUrgentOrders/After.jpg)ס הנתונים לאחר העדכון](.\stage2\Queries\updateOldUrgent\After.jpg)
 
 ### 2. Update Popular Drugs
 
@@ -493,13 +493,13 @@ stage2/
 
 שאילתה זו מסירה הזמנות שגילן עולה על שבועיים מתאריך ההגשה שלהן. פעולת ניקוי זו מסייעת לשמור על יעילות בסיס הנתונים ומסירה נתונים ישנים שאינם רלוונטיים יותר למערכת.
 
-![מצב בסיס הנתונים לפני המחיקה](./stage2/Queries/deleteExpiredOrders/Before.jpg)
+![Before Deletion](stage2/Queries/deleteExpiredOrders/Before.jpg)
 
-![ביצוע שאילתת המחיקה](./stage2/Queries/deleteExpiredOrders/delete.sql)
+![Delete Query](stage2/Queries/deleteExpiredOrders/delete.sql)
 
-![אישור המחיקה](./stage2/Queries/deleteExpiredOrders/Done.jpg)
+![Confirmation](stage2/Queries/deleteExpiredOrders/Done.jpg)
 
-![מצב בסיס הנתונים לאחר המחיקה](./stage2/Queries/deleteExpiredOrders/After.jpg)
+![After Deletion](stage2/Queries/deleteExpiredOrders/After.jpg)
 
 ### 3. Delete Workers Without Warehouse Access
 
@@ -507,13 +507,13 @@ stage2/
 
 שאילתה זו מזהה ומסירה עובדי לוגיסטיקה שאין להם גישה לאף מחסן, שכן הם אינם יכולים לבצע את תפקידם ביעילות ללא גישה כזו. פעולה זו מנקה את מערכת ניהול העובדים ומאפשרת התמקדות בעובדים פעילים.
 
-![מצב בסיס הנתונים לפני המחיקה](./stage2/Queries/deleteNoAccessWorkers/Before.jpg)
+![Before Deletion](stage2/Queries/deleteNoAccessWorkers/Before.jpg)
 
-![ביצוע שאילתת המחיקה](./stage2/Queries/deleteNoAccessWorkers/delete.sql)
+![Delete Query](stage2/Queries/deleteNoAccessWorkers/delete.sql)
 
-![אישור המחיקה](./stage2/Queries/deleteNoAccessWorkers/Done.jpg)
+![Confirmation](stage2/Queries/deleteNoAccessWorkers/Done.jpg)
 
-![מצב בסיס הנתונים לאחר המחיקה](./stage2/Queries/deleteNoAccessWorkers/After.jpg)
+![After Deletion](stage2/Queries/deleteNoAccessWorkers/After.jpg)
 
 ## UPDATE Operations
 
@@ -566,6 +566,78 @@ The database system implements several constraints using ALTER TABLE commands to
 **לא ניתן לרשום תרופה שהוכנסה למלאי עם תאריך עתידי (מחר או יותר).**
 
 שינוי זה נעשה באמצעות פקודת ALTER TABLE על טבלת drug_in_stock, שמוסיפה אילוץ CHECK שמוודא שהתאריך בשדה 'since' אינו גדול מהתאריך הנוכחי. כאשר מנסים להכניס רשומה עם תאריך עתידי, המערכת מחזירה שגיאה ולא מאפשרת את ההכנסה.
+
+```sql
+ALTER TABLE drug_in_stock 
+ADD CONSTRAINT chk_since CHECK (since <= CURRENT_DATE);
+```
+
+![Constraint Error](stage2/Constraints/DrugStockDate.jpg)
+
+### 2. Drug Order Item Positive Amount (chk_drug_order_item_positive_amount)
+
+**אי אפשר להזמין תרופה בכמות אפס או שלילית.**
+
+שינוי זה נעשה באמצעות פקודת ALTER TABLE על טבלת drug_order_item, שמוסיפה אילוץ CHECK שמוודא שהכמות (amount) היא תמיד מספר חיובי. כאשר מנסים להזמין תרופה בכמות 0 או שלילית, המערכת מחזירה שגיאה.
+
+```sql
+ALTER TABLE drug_order_item 
+ADD CONSTRAINT chk_drug_order_item_positive_amount CHECK (amount > 0);
+```
+
+![Constraint Error](stage2/Constraints/DrugAmount0.jpg)
+
+### 3. Equipment Order Item Positive Amount (chk_equipment_order_item_positive_amount)
+
+**אי אפשר להזמין ציוד רפואי בכמות אפס או שלילית.**
+
+שינוי זה נעשה באמצעות פקודת ALTER TABLE על טבלת equipment_order_item, שמוסיפה אילוץ CHECK שמוודא שהכמות (amount) היא תמיד מספר חיובי. כאשר מנסים להזמין ציוד בכמות לא חיובית, המערכת מחזירה שגיאה.
+
+```sql
+ALTER TABLE equipment_order_item 
+ADD CONSTRAINT chk_equipment_order_item_positive_amount CHECK (amount > 0);
+```
+
+![Constraint Error](stage2/Constraints/EqAmount0.jpg)
+
+### 4. Default Urgent Drug Flag
+
+**אם לא ציינו האם ההזמנה דחופה – המערכת תניח שהיא לא דחופה כברירת מחדל.**
+
+שינוי זה נעשה באמצעות פקודת ALTER TABLE על טבלת drug_order_item, שמוסיפה ערך ברירת מחדל FALSE לשדה is_urgent. כאשר מכניסים רשומה חדשה ללא ציון ערך לשדה זה, המערכת מגדירה אותו אוטומטית כ-FALSE.
+
+```sql
+ALTER TABLE drug_order_item 
+ALTER COLUMN is_urgent SET DEFAULT FALSE;
+```
+
+![Default Value](stage2/Constraints/DefaultUrgentDrug.jpg)
+
+### 5. Default Urgent Equipment Flag
+
+**גם בציוד רפואי – אם לא צוין דחוף, המערכת תניח שההזמנה אינה דחופה.**
+
+שינוי זה נעשה באמצעות פקודת ALTER TABLE על טבלת equipment_order_item, שמוסיפה ערך ברירת מחדל FALSE לשדה is_urgent. כאשר מכניסים רשומה חדשה ללא ציון ערך לשדה זה, המערכת מגדירה אותו אוטומטית כ-FALSE.
+
+```sql
+ALTER TABLE equipment_order_item 
+ALTER COLUMN is_urgent SET DEFAULT FALSE;
+```
+
+![Default Value](stage2/Constraints/DfaultUrgentEq.jpg)
+
+### 6. Not Null Since Date (NOT NULL on since)
+
+**חובה להזין תאריך כניסה (since) לכל תרופה שנכנסת למלאי. בלי זה – אין תוקף ואין מעקב.**
+
+שינוי זה נעשה באמצעות פקודת ALTER TABLE על טבלת drug_in_stock, שמוסיפה אילוץ NOT NULL לשדה since. כאשר מנסים להכניס רשומה ללא תאריך כניסה למלאי, המערכת מחזירה שגיאה ולא מאפשרת את ההכנסה.
+
+```sql
+ALTER TABLE drug_in_stock 
+ALTER COLUMN since SET NOT NULL;
+```
+
+![Constraint Error](stage2/Constraints/NullSinceDrugStock.jpg)
 
 ```sql
 ALTER TABLE drug_in_stock 
@@ -647,16 +719,16 @@ The hospital logistics system implements transaction management to ensure data i
 
 The following example demonstrates a transaction that successfully commits changes to the database:
 
-![Update Before Commit](./stage2/RollbackCommit/Commit/Update.jpg)
+![Before Commit](stage2/RollbackCommit/Commit/Update.jpg)
 
-![Commit Operation](./stage2/RollbackCommit/Commit/Commiting.jpg)
+![Commit Operation](stage2/RollbackCommit/Commit/Commiting.jpg)
 
-![Changes Saved](./stage2/RollbackCommit/Commit/UpdateSaved.jpg)
+![Changes Saved](stage2/RollbackCommit/Commit/UpdateSaved.jpg)
 
 The SQL code for this operation:
 
 ```sql
--- Example from ./stage2/RollbackCommit/Commit/CommitingExample.sql
+-- Example from stage2/RollbackCommit/Commit/CommitingExample.sql
 BEGIN;
 -- Operations performed within the transaction
 UPDATE drug_in_stock SET amount = amount + 50 WHERE drug_id = 1 AND warehouse_id = 1;
@@ -668,16 +740,16 @@ COMMIT;
 
 This example shows a transaction that is rolled back, discarding changes:
 
-![Update Before Rollback](./stage2/RollbackCommit/RollBack/Updated.jpg)
+![Before Rollback](stage2/RollbackCommit/RollBack/Updated.jpg)
 
-![Rollback Operation](./stage2/RollbackCommit/RollBack/RollingBack.jpg)
+![Rollback Operation](stage2/RollbackCommit/RollBack/RollingBack.jpg)
 
-![Database After Rollback](./stage2/RollbackCommit/RollBack/AfterRollingBack.jpg)
+![After Rollback](stage2/RollbackCommit/RollBack/AfterRollingBack.jpg)
 
 The SQL code for this operation:
 
 ```sql
--- Example from ./stage2/RollbackCommit/RollBack/RollingExample.sql
+-- Example from stage2/RollbackCommit/RollBack/RollingExample.sql
 BEGIN;
 -- Operations performed within the transaction
 UPDATE drug_in_stock SET amount = amount - 30 WHERE drug_id = 1 AND warehouse_id = 1;
