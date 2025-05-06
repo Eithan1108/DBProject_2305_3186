@@ -222,17 +222,125 @@ The project is divided into five phases:
 
 Each phase builds upon the previous work, resulting in a fully functional hospital logistics management system.
 
+
+
+
 # Stage 2: SQL Queries, Constraints, and Transaction Management
 
 The second stage of the Hospital Medical Equipment Logistics System project focuses on implementing advanced SQL features, including complex SELECT queries, data modification operations (UPDATE and DELETE), constraints, and transaction management.
 
 ## Table of Contents for Stage 2
 
+- [Project Structure](#project-structure-for-stage-2)
 - [SELECT Queries](#select-queries)
 - [DELETE Operations](#delete-operations)
 - [UPDATE Operations](#update-operations)
 - [Constraints](#constraints)
 - [Transaction Management (ROLLBACK and COMMIT)](#transaction-management)
+
+## Project Structure for Stage 2
+
+```
+stage2\
+├───Constraints
+│       Constraints.sql
+│       DefaultUrgentDrug.jpg
+│       DfaultUrgentEq.jpg
+│       DrugAmount0.jpg
+│       DrugStockDate.jpg
+│       EqAmount0.jpg
+│       NullSinceDrugStock.jpg
+│
+├───Queries
+│   ├───deleteAllDelivered Orders
+│   │       After.jpg
+│   │       Before.jpg
+│   │       delete.sql
+│   │       Done.jpg
+│   │
+│   ├───deleteExpiredOrders
+│   │       After.jpg
+│   │       Before.jpg
+│   │       delete.sql
+│   │       Done.jpg
+│   │
+│   ├───deleteNoAccessWorkers
+│   │       After.jpg
+│   │       Before.jpg
+│   │       delete.sql
+│   │       Done.jpg
+│   │
+│   ├───selectQueries
+│   │   ├───Employee access to warehouses
+│   │   │       result.jpg
+│   │   │       running.jpg
+│   │   │       select.sql
+│   │   │
+│   │   ├───For each item, how many warehouses is it located in
+│   │   │       result.jpg
+│   │   │       running.jpg
+│   │   │       select.sql
+│   │   │
+│   │   ├───Items to pick by warehouse for a specific employee
+│   │   │       result.jpg
+│   │   │       running.jpg
+│   │   │       select.sql
+│   │   │
+│   │   ├───lack of stock
+│   │   │       result.jpg
+│   │   │       running.png
+│   │   │       select.sql
+│   │   │
+│   │   ├───Medicines in danger of expiring
+│   │   │       result.jpg
+│   │   │       running.jpg
+│   │   │       select.sql
+│   │   │
+│   │   ├───The most needed medications
+│   │   │       result.jpg
+│   │   │       runnig.jpg
+│   │   │       select.sql
+│   │   │
+│   │   ├───Urgent items for each department
+│   │   │       result.png
+│   │   │       running.jpg
+│   │   │       urgentItems.sql
+│   │   │
+│   │   └───Warehouse inventory summary
+│   │           result.jpg
+│   │           running.jpg
+│   │           select.sql
+│   │
+│   ├───updateOldUrgent
+│   │       After.jpg
+│   │       Before.jpg
+│   │       update.sql
+│   │
+│   ├───updatePopularDrugs
+│   │       After.jpg
+│   │       Before.jpg
+│   │       Done.jpg
+│   │       update.sql
+│   │
+│   └───updateUrgentOrders
+│           After.jpg
+│           Before.jpg
+│           Done.jpg
+│           update.sql
+│
+└───RollbackCommit
+    ├───Commit
+    │       Commiting.jpg
+    │       CommitingExample.sql
+    │       Update.jpg
+    │       UpdateSaved.jpg
+    │
+    └───RollBack
+            AfterRollingBack.jpg
+            RollingBack.jpg
+            RollingExample.sql
+            Updated.jpg
+```
 
 ## SELECT Queries
 
@@ -240,9 +348,9 @@ The second stage of the Hospital Medical Equipment Logistics System project focu
 
 **שאילתה זו מציגה את מספר הפריטים הדחופים (תרופות וציוד רפואי) בכל מחלקה. היא מסייעת לניהול המשאבים על ידי זיהוי מחלקות הזקוקות לטיפול מיידי. התוצאות מציגות עבור כל מחלקה את מספר פריטי התרופות הדחופים, מספר פריטי הציוד הדחופים והסכום הכולל, מסודר לפי המחלקות עם המספר הגבוה ביותר של פריטים דחופים.**
 
-![Query Execution Screenshot](./stage2/Queries/selectQueries/Urgent%20items%20for%20each%20department/running.jpg)
+![Urgent Items Query Execution Screenshot](.\stage2\Queries\selectQueries\Urgent items for each department\running.jpg)
 
-![Query Results](./stage2/Queries/selectQueries/Urgent%20items%20for%20each%20department/result.png)
+![Urgent Items Query Results](.\stage2\Queries\selectQueries\Urgent items for each department\result.png)
 
 ### 2. The Most Needed Medications
 
@@ -300,17 +408,47 @@ The second stage of the Hospital Medical Equipment Logistics System project focu
 
 ![Query Results](./stage2/Queries/selectQueries/Items%20to%20pick%20by%20warehouse%20for%20a%20specific%20employee/result.jpg)
 
-## DELETE Operations
+## UPDATE Operations
 
-### 1. Delete All Delivered Orders
+### 1. Update Old Urgent Items
 
-**מחיקה של כל ההזמנות (ותתי ההזמנות) שכל תתי ההזמנות שלהן סופקו**
+**עדכון של מצב פריט ההזמנה למאושר עבור כל פריטי ההזמנה הדחופים שהוגשו לפני שלושה ימים ולא אושרו (אפשר גם עבור ציוד רפואי)**
 
-שאילתה זו מוחקת את כל ההזמנות ופריטי ההזמנה המשויכים אליהן כאשר כל הפריטים כבר סופקו. פעולה זו מסייעת לשמור על יעילות בסיס הנתונים על ידי הסרת הזמנות שהושלמו ואין צורך לעקוב אחריהן יותר.
+שאילתה זו מאשרת באופן אוטומטי פריטי הזמנה דחופים שהוגשו לפני יותר משלושה ימים אך טרם אושרו. פעולה זו מבטיחה שפריטים קריטיים לא נתקעים בתהליך האישור ומקבלים טיפול גם אם נשכחו.
 
-![מצב בסיס הנתונים לפני המחיקה](./stage2/Queries/deleteAllDelivered%20Orders/Before.jpg)
+![מצב בסיס הנתונים לפני העדכון](.\stage2\Queries\updateOldUrgent\Before.jpg)
 
-![ביצוע שאילתת המחיקה](./stage2/Queries/deleteAllDelivered%20Orders/delete.sql)
+![ביצוע שאילתת העדכון](.\stage2\Queries\updateOldUrgent\update.sql)
+
+![מצב בסיס הנתונים לאחר העדכון](.\stage2\Queries\updateOldUrgent\After.jpg)
+
+### 2. Update Popular Drugs
+
+**מעלה את כמות התרופה במלאי אוטומטית עבור תרופות פופולריות**
+
+שאילתה זו מגדילה את רמות המלאי עבור תרופות שמוזמנות בתדירות גבוהה. המערכת מגדילה באופן אוטומטי את כמויות המלאי של תרופות שמופיעות במספר רב של הזמנות כדי להבטיח אספקה מספקת לפריטים בביקוש גבוה.
+
+![מצב בסיס הנתונים לפני העדכון](.\stage2\Queries\updatePopularDrugs\Before.jpg)
+
+![ביצוע שאילתת העדכון](.\stage2\Queries\updatePopularDrugs\update.sql)
+
+![אישור העדכון](.\stage2\Queries\updatePopularDrugs\Done.jpg)
+
+![מצב בסיס הנתונים לאחר העדכון](.\stage2\Queries\updatePopularDrugs\After.jpg)
+
+### 3. Update Urgent Orders
+
+**עדכון של מצב פריט ההזמנה למאושר עבור כל פריטי ההזמנה הדחופים שהוגשו על ידי מחלקות דחופות באופן ישיר**
+
+שאילתה זו מאשרת באופן אוטומטי פריטי הזמנה דחופים שהוגשו על ידי מחלקות חירום. פעולה זו מייעלת את תהליך האישור עבור בקשות רגישות לזמן ממחלקות טיפול קריטי, ומוודאת שהמחלקות הקריטיות ביותר בבית החולים מקבלות שירות מהיר ויעיל.
+
+![מצב בסיס הנתונים לפני העדכון](.\stage2\Queries\updateUrgentOrders\Before.jpg)
+
+![ביצוע שאילתת העדכון](.\stage2\Queries\updateUrgentOrders\update.sql)
+
+![אישור העדכון](.\stage2\Queries\updateUrgentOrders\Done.jpg)
+
+![מצב בסיס הנתונים לאחר העדכון](.\stage2\Queries\updateUrgentOrders\After.jpg)/deleteAllDelivered%20Orders/delete.sql)
 
 ![אישור המחיקה](./stage2/Queries/deleteAllDelivered%20Orders/Done.jpg)
 
@@ -401,7 +539,7 @@ ALTER TABLE drug_in_stock
 ADD CONSTRAINT chk_since CHECK (since <= CURRENT_DATE);
 ```
 
-![Drug Stock Date Constraint Implementation and Error](./stage2/Constraints/DrugStockDate.jpg)
+![Drug Stock Date Constraint Implementation and Error](.\stage2\Constraints\DrugStockDate.jpg)
 
 ### 2. Drug Order Item Positive Amount (chk_drug_order_item_positive_amount)
 
@@ -414,7 +552,7 @@ ALTER TABLE drug_order_item
 ADD CONSTRAINT chk_drug_order_item_positive_amount CHECK (amount > 0);
 ```
 
-![Drug Amount Constraint Implementation and Error](./stage2/Constraints/DrugAmount0.jpg)
+![Drug Amount Constraint Implementation and Error](.\stage2\Constraints\DrugAmount0.jpg)
 
 ### 3. Equipment Order Item Positive Amount (chk_equipment_order_item_positive_amount)
 
@@ -427,7 +565,7 @@ ALTER TABLE equipment_order_item
 ADD CONSTRAINT chk_equipment_order_item_positive_amount CHECK (amount > 0);
 ```
 
-![Equipment Amount Constraint Implementation and Error](./stage2/Constraints/EqAmount0.jpg)
+![Equipment Amount Constraint Implementation and Error](.\stage2\Constraints\EqAmount0.jpg)
 
 ### 4. Default Urgent Drug Flag
 
@@ -440,7 +578,7 @@ ALTER TABLE drug_order_item
 ALTER COLUMN is_urgent SET DEFAULT FALSE;
 ```
 
-![Default Urgent Drug Constraint Implementation](./stage2/Constraints/DefaultUrgentDrug.jpg)
+![Default Urgent Drug Constraint Implementation](.\stage2\Constraints\DefaultUrgentDrug.jpg)
 
 ### 5. Default Urgent Equipment Flag
 
@@ -453,7 +591,7 @@ ALTER TABLE equipment_order_item
 ALTER COLUMN is_urgent SET DEFAULT FALSE;
 ```
 
-![Default Urgent Equipment Constraint Implementation](./stage2/Constraints/DfaultUrgentEq.jpg)
+![Default Urgent Equipment Constraint Implementation](.\stage2\Constraints\DfaultUrgentEq.jpg)
 
 ### 6. Not Null Since Date (NOT NULL on since)
 
@@ -466,7 +604,7 @@ ALTER TABLE drug_in_stock
 ALTER COLUMN since SET NOT NULL;
 ```
 
-![Null Since Date Constraint Implementation and Error](./stage2/Constraints/NullSinceDrugStock.jpg)
+![Null Since Date Constraint Implementation and Error](.\stage2\Constraints\NullSinceDrugStock.jpg)
 
 ## Transaction Management
 
@@ -476,16 +614,16 @@ The hospital logistics system implements transaction management to ensure data i
 
 The following example demonstrates a transaction that successfully commits changes to the database:
 
-![Update Before Commit](./stage2/RollbackCommit/Commit/Update.jpg)
+![Update Before Commit](.\stage2\RollbackCommit\Commit\Update.jpg)
 
-![Commit Operation](./stage2/RollbackCommit/Commit/Commiting.jpg)
+![Commit Operation](.\stage2\RollbackCommit\Commit\Commiting.jpg)
 
-![Changes Saved](./stage2/RollbackCommit/Commit/UpdateSaved.jpg)
+![Changes Saved](.\stage2\RollbackCommit\Commit\UpdateSaved.jpg)
 
 The SQL code for this operation:
 
 ```sql
--- Example from ./stage2/RollbackCommit/Commit/CommitingExample.sql
+-- Example from .\stage2\RollbackCommit\Commit\CommitingExample.sql
 BEGIN;
 -- Operations performed within the transaction
 UPDATE drug_in_stock SET amount = amount + 50 WHERE drug_id = 1 AND warehouse_id = 1;
@@ -497,16 +635,16 @@ COMMIT;
 
 This example shows a transaction that is rolled back, discarding changes:
 
-![Update Before Rollback](./stage2/RollbackCommit/RollBack/Updated.jpg)
+![Update Before Rollback](.\stage2\RollbackCommit\RollBack\Updated.jpg)
 
-![Rollback Operation](./stage2/RollbackCommit/RollBack/RollingBack.jpg)
+![Rollback Operation](.\stage2\RollbackCommit\RollBack\RollingBack.jpg)
 
-![Database After Rollback](./stage2/RollbackCommit/RollBack/AfterRollingBack.jpg)
+![Database After Rollback](.\stage2\RollbackCommit\RollBack\AfterRollingBack.jpg)
 
 The SQL code for this operation:
 
 ```sql
--- Example from ./stage2/RollbackCommit/RollBack/RollingExample.sql
+-- Example from .\stage2\RollbackCommit\RollBack\RollingExample.sql
 BEGIN;
 -- Operations performed within the transaction
 UPDATE drug_in_stock SET amount = amount - 30 WHERE drug_id = 1 AND warehouse_id = 1;
@@ -515,3 +653,5 @@ ROLLBACK;
 ```
 
 Transaction management ensures that complex operations affecting multiple tables either complete successfully or have no effect at all, preserving data consistency in the hospital logistics system.
+
+
