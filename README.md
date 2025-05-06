@@ -221,3 +221,297 @@ The project is divided into five phases:
 5. **Graphical Interface** - Developing a user interface for the system
 
 Each phase builds upon the previous work, resulting in a fully functional hospital logistics management system.
+
+# Stage 2: SQL Queries, Constraints, and Transaction Management
+
+The second stage of the Hospital Medical Equipment Logistics System project focuses on implementing advanced SQL features, including complex SELECT queries, data modification operations (UPDATE and DELETE), constraints, and transaction management.
+
+## Table of Contents for Stage 2
+
+- [SELECT Queries](#select-queries)
+- [DELETE Operations](#delete-operations)
+- [UPDATE Operations](#update-operations)
+- [Constraints](#constraints)
+- [Transaction Management (ROLLBACK and COMMIT)](#transaction-management)
+
+## SELECT Queries
+
+### 1. Urgent Items for Each Department
+
+**שאילתה זו מציגה את מספר הפריטים הדחופים (תרופות וציוד רפואי) בכל מחלקה. היא מסייעת לניהול המשאבים על ידי זיהוי מחלקות הזקוקות לטיפול מיידי. התוצאות מציגות עבור כל מחלקה את מספר פריטי התרופות הדחופים, מספר פריטי הציוד הדחופים והסכום הכולל, מסודר לפי המחלקות עם המספר הגבוה ביותר של פריטים דחופים.**
+
+![Query Execution Screenshot](./stage2/Queries/selectQueries/Urgent%20items%20for%20each%20department/running.jpg)
+
+![Query Results](./stage2/Queries/selectQueries/Urgent%20items%20for%20each%20department/result.png)
+
+### 2. The Most Needed Medications
+
+**שאילתה זו מזהה אילו תרופות נדרשות בתדירות הגבוהה ביותר ובכמויות הגדולות ביותר. מידע זה חיוני לניהול מלאי יעיל ולתכנון רכש. התוצאות מציגות עבור כל תרופה את מספר ההזמנות שבהן היא מופיעה וסך כל הכמות שהוזמנה, מסודר לפי הכמות הכוללת בסדר יורד.**
+
+![Query Execution Screenshot](./stage2/Queries/selectQueries/The%20most%20needed%20medications/runnig.jpg)
+
+![Query Results](./stage2/Queries/selectQueries/The%20most%20needed%20medications/result.jpg)
+
+### 3. Lack of Stock
+
+**שאילתה זו מזהה פריטים (תרופות וציוד רפואי) שבהם סך כל הכמות המוזמנת בכל ההזמנות יחד גדולה מסך כל הכמות הזמינה במלאי. עבור כל פריט, היא מחשבת את סך כל הכמות המוזמנת מכל המחלקות ומשווה אותה לסך כל המלאי הזמין בכל המחסנים. התוצאות מציגות את שם הפריט, הכמות שהוזמנה, הכמות הזמינה במלאי וגודל המחסור. התוצאות מסודרות לפי גודל המחסור בסדר יורד, מה שמסייע לניהול הרכש להתמקד תחילה בפריטים עם המחסור החמור ביותר.**
+
+![Query Execution Screenshot](./stage2/Queries/selectQueries/lack%20of%20stock/running.png)
+
+![Query Results](./stage2/Queries/selectQueries/lack%20of%20stock/result.jpg)
+
+### 4. Warehouse Inventory Summary
+
+**שאילתה זו מספקת סקירה מקיפה של המלאי בכל המחסנים. עבור כל מחסן, היא מציגה את מספר סוגי התרופות וסך הכמות שלהן, או את מספר סוגי הציוד הרפואי וסך הכמות שלו. התוצאות מסודרות לפי הכמות הגדולה ביותר של פריטים במחסן (בין אם מדובר בתרופות או ציוד). שאילתה זו מסייעת בניהול המחסנים, במעקב אחר המלאי ובתכנון הרכש, ומספקת תמונה ברורה של היקף המלאי בכל מחסן.**
+
+![Query Execution Screenshot](./stage2/Queries/selectQueries/Warehouse%20inventory%20summary/running.jpg)
+
+![Query Results](./stage2/Queries/selectQueries/Warehouse%20inventory%20summary/result.jpg)
+
+### 5. Employee Access to Warehouses
+
+**שאילתה זו מציגה לאילו מחסנים יש לכל עובד לוגיסטיקה גישה. היא מסייעת בתכנון משמרות ובהקצאת משימות לעובדים. התוצאות מציגות עבור כל עובד את מספר המחסנים שיש לו גישה אליהם ואת שמות המחסנים, מסודר לפי העובדים עם הגישה למספר הרב ביותר של מחסנים.**
+
+![Query Execution Screenshot](./stage2/Queries/selectQueries/Employee%20access%20to%20warehouses/running.jpg)
+
+![Query Results](./stage2/Queries/selectQueries/Employee%20access%20to%20warehouses/result.jpg)
+
+### 6. Medicines in Danger of Expiring
+
+**שאילתה זו מזהה תרופות שעלולות לפוג בקרוב. היא מסייעת במניעת בזבוז ומבטיחה שהתרופות ישמשו לפני שיפוגו. התוצאות מציגות תרופות שנותר להן פחות מחודש עד לתפוגה, כולל תאריך הכנסתן למלאי, מספר הימים שעברו מאז, אורך חיי המדף שלהן ומספר הימים שנותרו עד לתפוגה.**
+
+![Query Execution Screenshot](./stage2/Queries/selectQueries/Medicines%20in%20danger%20of%20expiring/running.jpg)
+
+![Query Results](./stage2/Queries/selectQueries/Medicines%20in%20danger%20of%20expiring/result.jpg)
+
+### 7. For Each Item, How Many Warehouses Is It Located In
+
+**שאילתה זו מזהה פריטים שנמצאים במספר רב של מחסנים שונים. היא מסייעת בזיהוי פריטים פופולריים שדורשים ניהול מלאי מורכב יותר. התוצאות מציגות עבור כל פריט את מספר המחסנים שבהם הוא נמצא, מסודר לפי המספר הגבוה ביותר של מחסנים.**
+
+![Query Execution Screenshot](./stage2/Queries/selectQueries/For%20each%20item,%20how%20many%20warehouses%20is%20it%20located%20in/running.jpg)
+
+![Query Results](./stage2/Queries/selectQueries/For%20each%20item,%20how%20many%20warehouses%20is%20it%20located%20in/result.jpg)
+
+### 8. Items to Pick by Warehouse for a Specific Employee
+
+**שאילתה זו מציגה לעובד ספציפי (במקרה זה עובד מספר 1) את כל הפריטים שעליו לאסוף ממחסנים שיש לו גישה אליהם, עבור הזמנות פתוחות של המחלקות שבהן הוא עובד. היא מסייעת לעובד לתכנן את מסלול האיסוף היעיל ביותר. התוצאות מציגות עבור כל מחסן את כל הפריטים לאיסוף, כולל הכמות הנדרשת והכמות הקיימת במלאי.**
+
+![Query Execution Screenshot](./stage2/Queries/selectQueries/Items%20to%20pick%20by%20warehouse%20for%20a%20specific%20employee/running.jpg)
+
+![Query Results](./stage2/Queries/selectQueries/Items%20to%20pick%20by%20warehouse%20for%20a%20specific%20employee/result.jpg)
+
+## DELETE Operations
+
+### 1. Delete All Delivered Orders
+
+**מחיקה של כל ההזמנות (ותתי ההזמנות) שכל תתי ההזמנות שלהן סופקו**
+
+שאילתה זו מוחקת את כל ההזמנות ופריטי ההזמנה המשויכים אליהן כאשר כל הפריטים כבר סופקו. פעולה זו מסייעת לשמור על יעילות בסיס הנתונים על ידי הסרת הזמנות שהושלמו ואין צורך לעקוב אחריהן יותר.
+
+![מצב בסיס הנתונים לפני המחיקה](./stage2/Queries/deleteAllDelivered%20Orders/Before.jpg)
+
+![ביצוע שאילתת המחיקה](./stage2/Queries/deleteAllDelivered%20Orders/delete.sql)
+
+![אישור המחיקה](./stage2/Queries/deleteAllDelivered%20Orders/Done.jpg)
+
+![מצב בסיס הנתונים לאחר המחיקה](./stage2/Queries/deleteAllDelivered%20Orders/After.jpg)
+
+### 2. Delete Expired Orders
+
+**מחיקה של כל ההזמנות (כולל תתי הזמנות) של כל ההזמנות שעברו שבועיים מעת הגשתם**
+
+שאילתה זו מסירה הזמנות שגילן עולה על שבועיים מתאריך ההגשה שלהן. פעולת ניקוי זו מסייעת לשמור על יעילות בסיס הנתונים ומסירה נתונים ישנים שאינם רלוונטיים יותר למערכת.
+
+![מצב בסיס הנתונים לפני המחיקה](./stage2/Queries/deleteExpiredOrders/Before.jpg)
+
+![ביצוע שאילתת המחיקה](./stage2/Queries/deleteExpiredOrders/delete.sql)
+
+![אישור המחיקה](./stage2/Queries/deleteExpiredOrders/Done.jpg)
+
+![מצב בסיס הנתונים לאחר המחיקה](./stage2/Queries/deleteExpiredOrders/After.jpg)
+
+### 3. Delete Workers Without Warehouse Access
+
+**מחיקת כל העובדים ללא גישה לשום מחסן**
+
+שאילתה זו מזהה ומסירה עובדי לוגיסטיקה שאין להם גישה לאף מחסן, שכן הם אינם יכולים לבצע את תפקידם ביעילות ללא גישה כזו. פעולה זו מנקה את מערכת ניהול העובדים ומאפשרת התמקדות בעובדים פעילים.
+
+![מצב בסיס הנתונים לפני המחיקה](./stage2/Queries/deleteNoAccessWorkers/Before.jpg)
+
+![ביצוע שאילתת המחיקה](./stage2/Queries/deleteNoAccessWorkers/delete.sql)
+
+![אישור המחיקה](./stage2/Queries/deleteNoAccessWorkers/Done.jpg)
+
+![מצב בסיס הנתונים לאחר המחיקה](./stage2/Queries/deleteNoAccessWorkers/After.jpg)
+
+## UPDATE Operations
+
+### 1. Update Old Urgent Items
+
+**עדכון של מצב פריט ההזמנה למאושר עבור כל פריטי ההזמנה הדחופים שהוגשו לפני שלושה ימים ולא אושרו (אפשר גם עבור ציוד רפואי)**
+
+שאילתה זו מאשרת באופן אוטומטי פריטי הזמנה דחופים שהוגשו לפני יותר משלושה ימים אך טרם אושרו. פעולה זו מבטיחה שפריטים קריטיים לא נתקעים בתהליך האישור ומקבלים טיפול גם אם נשכחו.
+
+![מצב בסיס הנתונים לפני העדכון](./stage2/Queries/updateOldUrgent/Before.jpg)
+
+![ביצוע שאילתת העדכון](./stage2/Queries/updateOldUrgent/update.sql)
+
+![מצב בסיס הנתונים לאחר העדכון](./stage2/Queries/updateOldUrgent/After.jpg)
+
+### 2. Update Popular Drugs
+
+**מעלה את כמות התרופה במלאי אוטומטית עבור תרופות פופולריות**
+
+שאילתה זו מגדילה את רמות המלאי עבור תרופות שמוזמנות בתדירות גבוהה. המערכת מגדילה באופן אוטומטי את כמויות המלאי של תרופות שמופיעות במספר רב של הזמנות כדי להבטיח אספקה מספקת לפריטים בביקוש גבוה.
+
+![מצב בסיס הנתונים לפני העדכון](./stage2/Queries/updatePopularDrugs/Before.jpg)
+
+![ביצוע שאילתת העדכון](./stage2/Queries/updatePopularDrugs/update.sql)
+
+![אישור העדכון](./stage2/Queries/updatePopularDrugs/Done.jpg)
+
+![מצב בסיס הנתונים לאחר העדכון](./stage2/Queries/updatePopularDrugs/After.jpg)
+
+### 3. Update Urgent Orders
+
+**עדכון של מצב פריט ההזמנה למאושר עבור כל פריטי ההזמנה הדחופים שהוגשו על ידי מחלקות דחופות באופן ישיר**
+
+שאילתה זו מאשרת באופן אוטומטי פריטי הזמנה דחופים שהוגשו על ידי מחלקות חירום. פעולה זו מייעלת את תהליך האישור עבור בקשות רגישות לזמן ממחלקות טיפול קריטי, ומוודאת שהמחלקות הקריטיות ביותר בבית החולים מקבלות שירות מהיר ויעיל.
+
+![מצב בסיס הנתונים לפני העדכון](./stage2/Queries/updateUrgentOrders/Before.jpg)
+
+![ביצוע שאילתת העדכון](./stage2/Queries/updateUrgentOrders/update.sql)
+
+![אישור העדכון](./stage2/Queries/updateUrgentOrders/Done.jpg)
+
+![מצב בסיס הנתונים לאחר העדכון](./stage2/Queries/updateUrgentOrders/After.jpg)
+
+## Constraints
+
+The database system implements several constraints using ALTER TABLE commands to ensure data integrity and enforce business rules. Each constraint was tested by attempting to insert conflicting data to verify proper error handling.
+
+### 1. Drug Stock Date Validation (chk_since)
+
+**לא ניתן לרשום תרופה שהוכנסה למלאי עם תאריך עתידי (מחר או יותר).**
+
+שינוי זה נעשה באמצעות פקודת ALTER TABLE על טבלת drug_in_stock, שמוסיפה אילוץ CHECK שמוודא שהתאריך בשדה 'since' אינו גדול מהתאריך הנוכחי. כאשר מנסים להכניס רשומה עם תאריך עתידי, המערכת מחזירה שגיאה ולא מאפשרת את ההכנסה.
+
+```sql
+ALTER TABLE drug_in_stock 
+ADD CONSTRAINT chk_since CHECK (since <= CURRENT_DATE);
+```
+
+![Drug Stock Date Constraint Implementation and Error](./stage2/Constraints/DrugStockDate.jpg)
+
+### 2. Drug Order Item Positive Amount (chk_drug_order_item_positive_amount)
+
+**אי אפשר להזמין תרופה בכמות אפס או שלילית.**
+
+שינוי זה נעשה באמצעות פקודת ALTER TABLE על טבלת drug_order_item, שמוסיפה אילוץ CHECK שמוודא שהכמות (amount) היא תמיד מספר חיובי. כאשר מנסים להזמין תרופה בכמות 0 או שלילית, המערכת מחזירה שגיאה.
+
+```sql
+ALTER TABLE drug_order_item 
+ADD CONSTRAINT chk_drug_order_item_positive_amount CHECK (amount > 0);
+```
+
+![Drug Amount Constraint Implementation and Error](./stage2/Constraints/DrugAmount0.jpg)
+
+### 3. Equipment Order Item Positive Amount (chk_equipment_order_item_positive_amount)
+
+**אי אפשר להזמין ציוד רפואי בכמות אפס או שלילית.**
+
+שינוי זה נעשה באמצעות פקודת ALTER TABLE על טבלת equipment_order_item, שמוסיפה אילוץ CHECK שמוודא שהכמות (amount) היא תמיד מספר חיובי. כאשר מנסים להזמין ציוד בכמות לא חיובית, המערכת מחזירה שגיאה.
+
+```sql
+ALTER TABLE equipment_order_item 
+ADD CONSTRAINT chk_equipment_order_item_positive_amount CHECK (amount > 0);
+```
+
+![Equipment Amount Constraint Implementation and Error](./stage2/Constraints/EqAmount0.jpg)
+
+### 4. Default Urgent Drug Flag
+
+**אם לא ציינו האם ההזמנה דחופה – המערכת תניח שהיא לא דחופה כברירת מחדל.**
+
+שינוי זה נעשה באמצעות פקודת ALTER TABLE על טבלת drug_order_item, שמוסיפה ערך ברירת מחדל FALSE לשדה is_urgent. כאשר מכניסים רשומה חדשה ללא ציון ערך לשדה זה, המערכת מגדירה אותו אוטומטית כ-FALSE.
+
+```sql
+ALTER TABLE drug_order_item 
+ALTER COLUMN is_urgent SET DEFAULT FALSE;
+```
+
+![Default Urgent Drug Constraint Implementation](./stage2/Constraints/DefaultUrgentDrug.jpg)
+
+### 5. Default Urgent Equipment Flag
+
+**גם בציוד רפואי – אם לא צוין דחוף, המערכת תניח שההזמנה אינה דחופה.**
+
+שינוי זה נעשה באמצעות פקודת ALTER TABLE על טבלת equipment_order_item, שמוסיפה ערך ברירת מחדל FALSE לשדה is_urgent. כאשר מכניסים רשומה חדשה ללא ציון ערך לשדה זה, המערכת מגדירה אותו אוטומטית כ-FALSE.
+
+```sql
+ALTER TABLE equipment_order_item 
+ALTER COLUMN is_urgent SET DEFAULT FALSE;
+```
+
+![Default Urgent Equipment Constraint Implementation](./stage2/Constraints/DfaultUrgentEq.jpg)
+
+### 6. Not Null Since Date (NOT NULL on since)
+
+**חובה להזין תאריך כניסה (since) לכל תרופה שנכנסת למלאי. בלי זה – אין תוקף ואין מעקב.**
+
+שינוי זה נעשה באמצעות פקודת ALTER TABLE על טבלת drug_in_stock, שמוסיפה אילוץ NOT NULL לשדה since. כאשר מנסים להכניס רשומה ללא תאריך כניסה למלאי, המערכת מחזירה שגיאה ולא מאפשרת את ההכנסה.
+
+```sql
+ALTER TABLE drug_in_stock 
+ALTER COLUMN since SET NOT NULL;
+```
+
+![Null Since Date Constraint Implementation and Error](./stage2/Constraints/NullSinceDrugStock.jpg)
+
+## Transaction Management
+
+The hospital logistics system implements transaction management to ensure data integrity during complex operations that involve multiple related tables.
+
+### COMMIT Example
+
+The following example demonstrates a transaction that successfully commits changes to the database:
+
+![Update Before Commit](./stage2/RollbackCommit/Commit/Update.jpg)
+
+![Commit Operation](./stage2/RollbackCommit/Commit/Commiting.jpg)
+
+![Changes Saved](./stage2/RollbackCommit/Commit/UpdateSaved.jpg)
+
+The SQL code for this operation:
+
+```sql
+-- Example from ./stage2/RollbackCommit/Commit/CommitingExample.sql
+BEGIN;
+-- Operations performed within the transaction
+UPDATE drug_in_stock SET amount = amount + 50 WHERE drug_id = 1 AND warehouse_id = 1;
+-- Additional operations...
+COMMIT;
+```
+
+### ROLLBACK Example
+
+This example shows a transaction that is rolled back, discarding changes:
+
+![Update Before Rollback](./stage2/RollbackCommit/RollBack/Updated.jpg)
+
+![Rollback Operation](./stage2/RollbackCommit/RollBack/RollingBack.jpg)
+
+![Database After Rollback](./stage2/RollbackCommit/RollBack/AfterRollingBack.jpg)
+
+The SQL code for this operation:
+
+```sql
+-- Example from ./stage2/RollbackCommit/RollBack/RollingExample.sql
+BEGIN;
+-- Operations performed within the transaction
+UPDATE drug_in_stock SET amount = amount - 30 WHERE drug_id = 1 AND warehouse_id = 1;
+-- Due to an error or decision, changes are discarded
+ROLLBACK;
+```
+
+Transaction management ensures that complex operations affecting multiple tables either complete successfully or have no effect at all, preserving data consistency in the hospital logistics system.
