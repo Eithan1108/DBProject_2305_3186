@@ -353,65 +353,65 @@ stage2/
 
 **שאילתה זו מציגה את מספר הפריטים הדחופים (תרופות וציוד רפואי) בכל מחלקה. היא מסייעת לניהול המשאבים על ידי זיהוי מחלקות הזקוקות לטיפול מיידי. התוצאות מציגות עבור כל מחלקה את מספר פריטי התרופות הדחופים, מספר פריטי הציוד הדחופים והסכום הכולל, מסודר לפי המחלקות עם המספר הגבוה ביותר של פריטים דחופים.**
 
-![Urgent Items Query Execution Screenshot](.\stage2\Queries\selectQueries\Urgent items for each department\running.jpg)
+![Urgent Items Query Execution Screenshot](.\stage2\Queries\selectQueries\Urgentitemsforeachdepartment\running.jpg)
 
-![Urgent Items Query Results](.\stage2\Queries\selectQueries\Urgent items for each department\result.png)
+![Urgent Items Query Results](.\stage2\Queries\selectQueries\Urgentitemsforeachdepartment\result.png)
 
 ### 2. The Most Needed Medications
 
 **שאילתה זו מזהה אילו תרופות נדרשות בתדירות הגבוהה ביותר ובכמויות הגדולות ביותר. מידע זה חיוני לניהול מלאי יעיל ולתכנון רכש. התוצאות מציגות עבור כל תרופה את מספר ההזמנות שבהן היא מופיעה וסך כל הכמות שהוזמנה, מסודר לפי הכמות הכוללת בסדר יורד.**
 
-![Query Execution Screenshot](./stage2/Queries/selectQueries/The%20most%20needed%20medications/runnig.jpg)
+![Query Execution Screenshot](./stage2/Queries/selectQueries/Themostneededmedications/runnig.jpg)
 
-![Query Results](./stage2/Queries/selectQueries/The%20most%20needed%20medications/result.jpg)
+![Query Results](./stage2/Queries/selectQueries/Themostneededmedications/result.jpg)
 
 ### 3. Lack of Stock
 
 **שאילתה זו מזהה פריטים (תרופות וציוד רפואי) שבהם סך כל הכמות המוזמנת בכל ההזמנות יחד גדולה מסך כל הכמות הזמינה במלאי. עבור כל פריט, היא מחשבת את סך כל הכמות המוזמנת מכל המחלקות ומשווה אותה לסך כל המלאי הזמין בכל המחסנים. התוצאות מציגות את שם הפריט, הכמות שהוזמנה, הכמות הזמינה במלאי וגודל המחסור. התוצאות מסודרות לפי גודל המחסור בסדר יורד, מה שמסייע לניהול הרכש להתמקד תחילה בפריטים עם המחסור החמור ביותר.**
 
-![Query Execution Screenshot](./stage2/Queries/selectQueries/lack%20of%20stock/running.png)
+![Query Execution Screenshot](./stage2/Queries/selectQueries/lackofstock/running.png)
 
-![Query Results](./stage2/Queries/selectQueries/lack%20of%20stock/result.jpg)
+![Query Results](./stage2/Queries/selectQueries/lackofstock/result.jpg)
 
 ### 4. Warehouse Inventory Summary
 
 **שאילתה זו מספקת סקירה מקיפה של המלאי בכל המחסנים. עבור כל מחסן, היא מציגה את מספר סוגי התרופות וסך הכמות שלהן, או את מספר סוגי הציוד הרפואי וסך הכמות שלו. התוצאות מסודרות לפי הכמות הגדולה ביותר של פריטים במחסן (בין אם מדובר בתרופות או ציוד). שאילתה זו מסייעת בניהול המחסנים, במעקב אחר המלאי ובתכנון הרכש, ומספקת תמונה ברורה של היקף המלאי בכל מחסן.**
 
-![Query Execution Screenshot](./stage2/Queries/selectQueries/Warehouse%20inventory%20summary/running.jpg)
+![Query Execution Screenshot](./stage2/Queries/selectQueries/Warehouseinventorysummary/running.jpg)
 
-![Query Results](./stage2/Queries/selectQueries/Warehouse%20inventory%20summary/result.jpg)
+![Query Results](./stage2/Queries/selectQueries/Warehouseinventorysummary/result.jpg)
 
 ### 5. Employee Access to Warehouses
 
 **שאילתה זו מציגה לאילו מחסנים יש לכל עובד לוגיסטיקה גישה. היא מסייעת בתכנון משמרות ובהקצאת משימות לעובדים. התוצאות מציגות עבור כל עובד את מספר המחסנים שיש לו גישה אליהם ואת שמות המחסנים, מסודר לפי העובדים עם הגישה למספר הרב ביותר של מחסנים.**
 
-![Query Execution Screenshot](./stage2/Queries/selectQueries/Employee%20access%20to%20warehouses/running.jpg)
+![Query Execution Screenshot](./stage2/Queries/selectQueries/Employeeaccesstowarehouses/running.jpg)
 
-![Query Results](./stage2/Queries/selectQueries/Employee%20access%20to%20warehouses/result.jpg)
+![Query Results](./stage2/Queries/selectQueries/Employeeaccesstowarehouses/result.jpg)
 
 ### 6. Medicines in Danger of Expiring
 
 **שאילתה זו מזהה תרופות שעלולות לפוג בקרוב. היא מסייעת במניעת בזבוז ומבטיחה שהתרופות ישמשו לפני שיפוגו. התוצאות מציגות תרופות שנותר להן פחות מחודש עד לתפוגה, כולל תאריך הכנסתן למלאי, מספר הימים שעברו מאז, אורך חיי המדף שלהן ומספר הימים שנותרו עד לתפוגה.**
 
-![Query Execution Screenshot](./stage2/Queries/selectQueries/Medicines%20in%20danger%20of%20expiring/running.jpg)
+![Query Execution Screenshot](./stage2/Queries/selectQueries/Medicinesindangerofexpiring/running.jpg)
 
-![Query Results](./stage2/Queries/selectQueries/Medicines%20in%20danger%20of%20expiring/result.jpg)
+![Query Results](./stage2/Queries/selectQueries/Medicinesindangerofexpiring/result.jpg)
 
 ### 7. For Each Item, How Many Warehouses Is It Located In
 
 **שאילתה זו מזהה פריטים שנמצאים במספר רב של מחסנים שונים. היא מסייעת בזיהוי פריטים פופולריים שדורשים ניהול מלאי מורכב יותר. התוצאות מציגות עבור כל פריט את מספר המחסנים שבהם הוא נמצא, מסודר לפי המספר הגבוה ביותר של מחסנים.**
 
-![Query Execution Screenshot](./stage2/Queries/selectQueries/For%20each%20item,%20how%20many%20warehouses%20is%20it%20located%20in/running.jpg)
+![Query Execution Screenshot](./stage2/Queries/selectQueries/Foreachitemhowmanywarehousesisitlocatedin/running.jpg)
 
-![Query Results](./stage2/Queries/selectQueries/For%20each%20item,%20how%20many%20warehouses%20is%20it%20located%20in/result.jpg)
+![Query Results](./stage2/Queries/selectQueries/Foreachitemhowmanywarehousesisitlocatedin/result.jpg)
 
 ### 8. Items to Pick by Warehouse for a Specific Employee
 
 **שאילתה זו מציגה לעובד ספציפי (במקרה זה עובד מספר 1) את כל הפריטים שעליו לאסוף ממחסנים שיש לו גישה אליהם, עבור הזמנות פתוחות של המחלקות שבהן הוא עובד. היא מסייעת לעובד לתכנן את מסלול האיסוף היעיל ביותר. התוצאות מציגות עבור כל מחסן את כל הפריטים לאיסוף, כולל הכמות הנדרשת והכמות הקיימת במלאי.**
 
-![Query Execution Screenshot](./stage2/Queries/selectQueries/Items%20to%20pick%20by%20warehouse%20for%20a%20specific%20employee/running.jpg)
+![Query Execution Screenshot](./stage2/Queries/selectQueries/Itemstopickbywarehouseforaspecificemployee/running.jpg)
 
-![Query Results](./stage2/Queries/selectQueries/Items%20to%20pick%20by%20warehouse%20for%20a%20specific%20employee/result.jpg)
+![Query Results](./stage2/Queries/selectQueries/Itemstopickbywarehouseforaspecificemployee/result.jpg)
 
 ## UPDATE Operations
 
