@@ -353,9 +353,9 @@ stage2/
 
 **שאילתה זו מציגה את מספר הפריטים הדחופים (תרופות וציוד רפואי) בכל מחלקה. היא מסייעת לניהול המשאבים על ידי זיהוי מחלקות הזקוקות לטיפול מיידי. התוצאות מציגות עבור כל מחלקה את מספר פריטי התרופות הדחופים, מספר פריטי הציוד הדחופים והסכום הכולל, מסודר לפי המחלקות עם המספר הגבוה ביותר של פריטים דחופים.**
 
-![Urgent Items Query Execution Screenshot](.\stage2\Queries\selectQueries\Urgentitemsforeachdepartment\running.jpg)
+![Urgent Items Query Execution Screenshot](./stage2/Queries/selectQueries/Urgentitemsforeachdepartment/running.jpg)
 
-![Urgent Items Query Results](.\stage2\Queries\selectQueries\Urgentitemsforeachdepartment\result.png)
+![Urgent Items Query Results](./stage2/Queries/selectQueries/Urgentitemsforeachdepartment/result.png)
 
 ### 2. The Most Needed Medications
 
@@ -421,9 +421,9 @@ stage2/
 
 שאילתה זו מאשרת באופן אוטומטי פריטי הזמנה דחופים שהוגשו לפני יותר משלושה ימים אך טרם אושרו. פעולה זו מבטיחה שפריטים קריטיים לא נתקעים בתהליך האישור.
 
-![לפני העדכון](./stage2/Queries/updateOldUrgent/Before.jpg)
+![לפני העדכון](./stage2/Queries/updateQueries/updateOldUrgent/Before.jpg)
 
-![אחרי העדכון](./stage2/Queries/updateOldUrgent/After.jpg)
+![אחרי העדכון](./stage2/Queries/updateQueries/updateOldUrgent/After.jpg)
 
 ### 2. Update Popular Drugs
 
@@ -431,11 +431,11 @@ stage2/
 
 שאילתה זו מגדילה את רמות המלאי עבור תרופות שמוזמנות בתדירות גבוהה. המערכת מגדילה באופן אוטומטי את כמויות המלאי של תרופות שמופיעות במספר רב של הזמנות.
 
-![לפני העדכון](./stage2/Queries/updatePopularDrugs/Before.jpg)
+![לפני העדכון](./stage2/Queries/updateQueries/updatePopularDrugs/Before.jpg)
 
-![אישור העדכון](./stage2/Queries/updatePopularDrugs/Done.jpg)
+![אישור העדכון](./stage2/Queries/updateQueries/updatePopularDrugs/Done.jpg)
 
-![אחרי העדכון](./stage2/Queries/updatePopularDrugs/After.jpg)
+![אחרי העדכון](./stage2/Queries/updateQueries/updatePopularDrugs/After.jpg)
 
 ### 3. Update Urgent Orders
 
@@ -443,11 +443,11 @@ stage2/
 
 שאילתה זו מאשרת באופן אוטומטי פריטי הזמנה דחופים שהוגשו על ידי מחלקות חירום. פעולה זו מייעלת את תהליך האישור עבור בקשות רגישות לזמן ממחלקות טיפול קריטי.
 
-![לפני העדכון](./stage2/Queries/updateUrgentOrders/Before.jpg)
+![לפני העדכון](./stage2/Queries/updateQueries/updateUrgentOrders/Before.jpg)
 
-![אישור העדכון](./stage2/Queries/updateUrgentOrders/Done.jpg)
+![אישור העדכון](./stage2/Queries/updateQueries/updateUrgentOrders/Done.jpg)
 
-![אחרי העדכון](./stage2/Queries/updateUrgentOrders/After.jpg)
+![אחרי העדכון](./stage2/Queries/updateQueries/updateUrgentOrders/After.jpg)
 
 ## Delete Operations
 
@@ -457,11 +457,11 @@ stage2/
 
 שאילתה זו מסירה הזמנות שגילן עולה על שבועיים מתאריך ההגשה שלהן. פעולת ניקוי זו מסייעת לשמור על יעילות בסיס הנתונים ומסירה נתונים ישנים שאינם רלוונטיים יותר למערכת.
 
-![Before Deletion](stage2/Queries/deleteExpiredOrders/Before.jpg)
+![Before Deletion](stage2/Queries/deleteQueries/deleteExpiredOrders/Before.jpg)
 
-![Confirmation](stage2/Queries/deleteExpiredOrders/Done.jpg)
+![Confirmation](stage2/Queries/deleteQueries/deleteExpiredOrders/Done.jpg)
 
-![After Deletion](stage2/Queries/deleteExpiredOrders/After.jpg)
+![After Deletion](stage2/Queries/deleteQueries/deleteExpiredOrders/After.jpg)
 
 ### 2. Delete Workers Without Warehouse Access
 
@@ -469,11 +469,11 @@ stage2/
 
 שאילתה זו מזהה ומסירה עובדי לוגיסטיקה שאין להם גישה לאף מחסן, שכן הם אינם יכולים לבצע את תפקידם ביעילות ללא גישה כזו. פעולה זו מנקה את מערכת ניהול העובדים ומאפשרת התמקדות בעובדים פעילים.
 
-![Before Deletion](stage2/Queries/deleteNoAccessWorkers/Before.jpg)
+![Before Deletion](stage2/Queries/deleteQueries/deleteNoAccessWorkers/Before.jpg)
 
-![Confirmation](stage2/Queries/deleteNoAccessWorkers/Done.jpg)
+![Confirmation](stage2/Queries/deleteQueries/deleteNoAccessWorkers/Done.jpg)
 
-![After Deletion](stage2/Queries/deleteNoAccessWorkers/After.jpg)
+![After Deletion](stage2/Queries/deleteQueries/deleteNoAccessWorkers/After.jpg)
 
 
 ### 3. Delete delivered orders
@@ -485,11 +485,11 @@ stage2/
 שבה נמחקות.
 
 
-![Before Deletion](stage2/Queries/deleteAllDeliveredOrders/Before.jpg)
+![Before Deletion](stage2/Queries/deleteQueries/deleteAllDeliveredOrders/Before.jpg)
 
-![Confirmation](stage2/Queries/deleteAllDeliveredOrders/Done.jpg)
+![Confirmation](stage2/Queries/deleteQueries/deleteAllDeliveredOrders/Done.jpg)
 
-![After Deletion](stage2/Queries/deleteAllDeliveredOrders/After.jpg)
+![After Deletion](stage2/Queries/deleteQueries/deleteAllDeliveredOrders/After.jpg)
 
 
 ## Constraints
