@@ -775,7 +775,7 @@ The `births_summary_view` joins birth records with mother and doctor information
 - Includes delivery type information
 - Shows attending doctor details: name, birth specialty, and seniority
 
-**Sample Data from View:**
+**Creating the View:**
 ```sql
 SELECT br.id_br,
     m.name AS mother_name,
@@ -792,7 +792,7 @@ FROM birth_record br
     JOIN midwife mw ON br.id_br = mw.id_br
     JOIN doctor d ON mw.id_d = d.id_d;
 ```
-
+**Sample Data from View:**
 ![Births Summary View Output](./stage3/Views/births_summary_view/view_output.png)
 
 #### Query 1: Birth Statistics by Doctor Specialty
@@ -854,7 +854,7 @@ The `department_equipment_orders_view` provides a comprehensive view of all equi
 - Includes medical equipment names and specifications
 - Shows order amounts, urgency status, build requirements, and delivery status
 
-**Sample Data from View:**
+**Creating the View:**
 ```sql
 SELECT o.order_id,
     o.department_id,
@@ -870,7 +870,7 @@ FROM "Order" o
     JOIN equipment_order_item eoi ON o.order_id = eoi.order_id AND o.department_id = eoi.department_id
     JOIN medical_equipment me ON eoi.medical_equipment_id = me.medical_equipment_id;
 ```
-
+**Sample Data from View:**
 ![Department Equipment Orders View Output](./stage3/Views/department_equipment_orders_view/view_output.png)
 
 #### Query 1: Undelivered Equipment Summary by Department
