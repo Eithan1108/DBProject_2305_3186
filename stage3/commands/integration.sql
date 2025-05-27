@@ -102,11 +102,3 @@ ALTER TABLE attending_to
         REFERENCES room (id_r, department_id)
         ON UPDATE CASCADE
         ON DELETE RESTRICT;
-
-
-
-
-
-
-
-
