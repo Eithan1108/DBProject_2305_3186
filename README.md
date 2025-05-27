@@ -622,3 +622,206 @@ ROLLBACK;
 ```
 
 Transaction management ensures that complex operations affecting multiple tables either complete successfully or have no effect at all, preserving data consistency in the hospital logistics system.
+
+
+# Stage 3: Database Integration and Views""
+
+The third stage of the Hospital Medical Equipment Logistics System project focuses on integrating two separate database systems and creating meaningful views that combine data from both systems.
+
+## Table of Contents for Stage 3""
+
+- [Integration Process](#integration-process)
+- [Views](#views)
+ - [Births Summary View](#births-summary-view)
+ - [Department Equipment Orders View](#department-equipment-orders-view)
+- [Project Structure for Stage 3](#project-structure-for-stage-3)
+
+## Integration Process""
+
+### Integration Decisions and Methodology""
+
+During the integration process, we decided to merge two separate databases:
+- **Database A"": Medical Equipment Logistics System (our original project)
+- **Database B"": Maternity Department Management System (from the other team)
+
+**Key Integration Decisions:""**
+1. Preserving the integrity of both database structures while adding connections between them
+2. Creating Views that unite information from both sources
+3. Avoiding data duplication and ensuring information consistency
+
+**The integration process included:""**
+- Importing all tables from both databases into a single schema
+- Checking compatibility and resolving table name conflicts
+- Creating Views that combine relevant information from both sources
+
+### Entity Relationship Diagrams""
+
+#### Original ERD""
+![Original ERD](./stage3/images_after/erd.png)
+
+#### Updated DSD After Integration""
+![Updated DSD](./stage3/images_after/dsd.png)
+
+## Views""
+
+### Births Summary View""
+
+**View Description:""**
+The `births_summary_view` combines information about births, mothers, and doctors from the maternity department database. This view provides a comprehensive overview of birth records including mother details, doctor information, and birth outcomes.
+
+**View Structure:""**
+- Retrieves all birth records from `birth_record` table
+- Joins with mother information from `maternity` table
+- Connects births to attending doctors through `midwife` table
+- Includes doctor details from `doctor` table
+
+**Sample Data from View:""**
+```sql""
+SELECT * FROM births_summary_view LIMIT 10;
+```""
+
+![Births Summary View Output](./stage3/Views/births_summary_view/view_output.png)
+
+#### Query 1: Doctor Specialization and Birth Statistics""
+
+**Description:""**
+This query counts how many births each doctor performed grouped by their specialization and calculates the average mother age for births they attended. It provides insights into doctor workload distribution across different specializations.
+
+**SQL Query:""**
+```sql""
+SELECT 
+   doctor_specialization,
+   COUNT(DISTINCT doctor_id) as doctor_count,
+   COUNT(record_id) as total_births,
+   ROUND(AVG(mother_age), 1) as avg_mother_age
+FROM births_summary_view
+GROUP BY doctor_specialization
+ORDER BY total_births DESC;
+```""
+
+![Query 1 Output](./stage3/Views/births_summary_view/Query1_output.png)
+
+#### Query 2: Recent Normal Births by Experienced Doctors""
+
+**Description:""**
+This query identifies normal births performed in the last 6 months by doctors with at least 10 years of seniority. It helps track routine deliveries handled by experienced medical staff.
+
+**SQL Query:""**
+```sql""
+SELECT 
+   doctor_name,
+   doctor_seniority,
+   birth_date,
+   mother_name,
+   mother_age,
+   birth_type
+FROM births_summary_view
+WHERE birth_type = 'Normal'
+   AND birth_date >= CURRENT_DATE - INTERVAL '6 months'
+   AND doctor_seniority >= 10
+ORDER BY birth_date DESC;
+```""
+
+![Query 2 Output](./stage3/Views/births_summary_view/Query2_output.png)
+
+### Department Equipment Orders View""
+
+**View Description:""**
+The `department_equipment_orders_view` consolidates equipment order information from the logistics database. It provides a unified view of all medical equipment orders placed by different departments, including order status and urgency flags.
+
+**View Structure:""**
+- Combines equipment order items from `equipment_order_item` table
+- Includes order ID, department ID, equipment ID, quantity, status, and urgency flag
+- Designed for analyzing equipment order history by departments
+
+**Sample Data from View:""**
+```sql""
+SELECT * FROM department_equipment_orders_view LIMIT 10;
+```""
+
+![Department Equipment Orders View Output](./stage3/Views/department_equipment_orders_view/view_output.png)
+
+#### Query 1: Unfulfilled Equipment Demand by Department""
+
+**Description:""**
+This query shows for each department how much equipment of each type they ordered (that hasn't been delivered yet) and counts how many of these orders are urgent. It helps prioritize urgent orders and understand unmet demand for each equipment type.
+
+**SQL Query:""**
+```sql""
+SELECT 
+   department_id,
+   equipment_id,
+   SUM(quantity) as total_quantity_ordered,
+   COUNT(CASE WHEN is_urgent = TRUE THEN 1 END) as urgent_orders,
+   COUNT(*) as total_orders
+FROM department_equipment_orders_view
+WHERE status != 'Delivered'
+GROUP BY department_id, equipment_id
+ORDER BY urgent_orders DESC, total_quantity_ordered DESC;
+```""
+
+![Query 1 Output](./stage3/Views/department_equipment_orders_view/Query1_output.png)
+
+#### Query 2: Equipment Orders from High-Priority Departments""
+
+**Description:""**
+This query identifies equipment orders from departments with emergency level 3 or higher. It provides information about the ordering department, equipment name, quantity, urgency status, and order status.
+
+**SQL Query:""**
+```sql""
+SELECT 
+   d.department_id,
+   d.department_name,
+   e.equipment_name,
+   deo.quantity,
+   deo.is_urgent,
+   deo.status
+FROM department_equipment_orders_view deo
+JOIN department d ON deo.department_id = d.department_id
+JOIN medical_equipment e ON deo.equipment_id = e.equipment_id
+WHERE d.emergency_level >= 3
+ORDER BY deo.is_urgent DESC, deo.quantity DESC;
+```""
+
+![Query 2 Output](./stage3/Views/department_equipment_orders_view/Query2_output.png)
+
+## Project Structure for Stage 3""
+
+```""
+stage3/
+├── backup/
+│   └── backup3
+├── commands/
+│   └── integration.sql
+├── images_after/
+│   ├── dsd.png
+│   └── erd.png
+├── other_team_images/
+│   ├── dsd.png
+│   └── erd.png
+├── Views/
+│   ├── births_summary_view/
+│   │   ├── births_summary_view.sql
+│   │   ├── Query_1.sql
+│   │   ├── Query_2.sql
+│   │   ├── Query1_output.png
+│   │   ├── Query2_output.png
+│   │   └── view_output.png
+│   └── department_equipment_orders_view/
+│       ├── department_equipment_orders_view.sql
+│       ├── Query_1.sql
+│       ├── Query_2.sql
+│       ├── Query1_output.png
+│       ├── Query2_output.png
+│       └── view_output.png
+└── README.md
+```""
+
+## Integration SQL Commands""
+
+The complete integration process is documented in the `integration.sql` file, which includes:
+- Table creation statements for both databases
+- View creation statements
+- Sample queries demonstrating the integrated functionality
+
+This integration successfully combines the medical equipment logistics system with the maternity department management system, providing a more comprehensive view of hospital operations.
