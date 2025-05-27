@@ -624,11 +624,11 @@ ROLLBACK;
 Transaction management ensures that complex operations affecting multiple tables either complete successfully or have no effect at all, preserving data consistency in the hospital logistics system.
 
 
-# Stage 3: Database Integration and Views""
+# Stage 3: Database Integration and Views
 
 The third stage of the Hospital Medical Equipment Logistics System project focuses on integrating two separate database systems and creating meaningful views that combine data from both systems.
 
-## Table of Contents for Stage 3""
+## Table of Contents for Stage 3
 
 - [Integration Process](#integration-process)
 - [Views](#views)
@@ -636,69 +636,71 @@ The third stage of the Hospital Medical Equipment Logistics System project focus
  - [Department Equipment Orders View](#department-equipment-orders-view)
 - [Project Structure for Stage 3](#project-structure-for-stage-3)
 
-## Integration Process""
+## Integration Process
 
-### Integration Decisions and Methodology""
+### Integration Decisions and Methodology
 
 During the integration process, we merged two distinct database systems:
-- **Database A"": Medical Equipment Logistics System (our original project) - A general logistics management system for hospital departments
-- **Database B"": Maternity Department Management System (from the other team) - A specialized system for maternity ward operations
+- **Database A: Medical Equipment Logistics System (our original project) - A general logistics management system for hospital departments
+- **Database B: Maternity Department Management System (from the other team) - A specialized system for maternity ward operations
 
-**Integration Strategy:""**
+**Integration Strategy:**
 Our projects complemented each other perfectly: while our system handles general hospital department logistics, their system focuses specifically on maternity ward operations. We identified that the most logical integration approach was to use inheritance, where the maternity department would be a specialized type of general department.
 
-**Key Integration Approach:""**
+**Key Integration Approach:**
 We implemented an include/exclude inheritance pattern where:
 1. The `maternity_department` entity inherits from our general `department` entity
 2. This allows maternity departments to have all the general department capabilities plus specialized maternity features
 3. We connected the `room` entity as a weak entity dependent on `maternity_department`
 4. This creates a relationship where each maternity department has many rooms, and each room belongs to exactly one department
 
-**Why This Design Makes Sense:""**
+**Why This Design Makes Sense:**
 - Maintains data integrity by ensuring rooms cannot exist without a department
 - Allows for specialized maternity functionality while preserving general department operations
 - Enables seamless integration without duplicating existing department logic
 - Provides a scalable model for adding other specialized departments in the future
 
-### Entity Relationship Diagrams""
+### Entity Relationship Diagrams
 
-#### Original ERD - Our System""
-![Original ERD Our System](./stage3/images_after/erd.png)
+#### Other Team's ERD - Other Team's System
+![Other Team's ERD](./stage3/other_team_images/erd.png)
 
-#### Original ERD - Other Team's System""
-![Original ERD Other Team](./stage3/other_team_images/erd.png)
+#### Other Team's DSD - Other Team's System
+![Other Team's DSD](./stage3/other_team_images/dsd.png)
 
-#### Updated DSD After Integration""
-![Updated DSD After Integration](./stage3/images_after/dsd.png)
+#### Integrated ERD After Integration
+![Integrated ERD](./stage3/images_after/erd.png)
 
-#### Original DSD - Other Team's System""
-![Original DSD Other Team](./stage3/other_team_images/dsd.png)
+#### Integrated DSD After Integration
+![Integrated DSD](./stage3/images_after/dsd.png)
 
-### Technical Integration Process""
 
-**Database Merging:""**
+
+### Technical Integration Process
+
+**Database Merging:**
 The integration was accomplished by restoring both database backups into a single database. Since there were no overlapping table names or conflicting schemas, the merge was straightforward.
 
-**Schema Modifications:""**
+**Schema Modifications:**
 The connection process required several critical schema changes:
 
-1. **Creating the Maternity Department Table:""**
+1. **Creating the Maternity Department Table:**
   - Created `maternity_department` as a specialization of `department`
   - Added maternity-specific attributes like `delivery_types_supported` and `birth_support_level`
 
-2. **Modifying the Room Entity:""**
+2. **Modifying the Room Entity:**
   - Added `department_id` as a foreign key to establish the weak entity relationship
   - Changed the primary key of `room` to composite key `(id_r, department_id)`
   - This ensures rooms are uniquely identified within their department context
 
-3. **Updating Related Entities:""**
+3. **Updating Related Entities:**
   - Modified `maternity` table to include `department_id` and update foreign key references
   - Updated `attending_to` table to include `department_id` in its primary key
   - Ensured all foreign key relationships maintained referential integrity
 
-**Integration Commands Explained:""**
+**Integration Commands Explained:**
 
-```sql""
+```sql
 -- Step 1: Create the specialized maternity_department table
 CREATE TABLE maternity_department (
    department_id INT PRIMARY KEY REFERENCES department(department_id) ON DELETE CASCADE,
@@ -757,35 +759,35 @@ ALTER TABLE attending_to ADD CONSTRAINT attending_to_pkey PRIMARY KEY (id_r, dep
 ALTER TABLE attending_to ADD CONSTRAINT attending_to_room_fk
    FOREIGN KEY (id_r, department_id) REFERENCES room (id_r, department_id)
    ON UPDATE CASCADE ON DELETE RESTRICT;
-```""
+```
 
-## Views""
+## Views
 
-### Births Summary View""
+### Births Summary View
 
-**View Description:""**
+**View Description:**
 The `births_summary_view` combines information about births, mothers, and doctors from the maternity department database. This view provides a comprehensive overview of birth records including mother details, doctor information, and birth outcomes.
 
-**View Structure:""**
+**View Structure:**
 - Retrieves all birth records from `birth_record` table
 - Joins with mother information from `maternity` table
 - Connects births to attending doctors through `midwife` table
 - Includes doctor details from `doctor` table
 
-**Sample Data from View:""**
-```sql""
+**Sample Data from View:**
+```sql
 SELECT * FROM births_summary_view LIMIT 10;
-```""
+```
 
 ![Births Summary View Output](./stage3/Views/births_summary_view/view_output.png)
 
-#### Query 1: Doctor Specialization and Birth Statistics""
+#### Query 1: Doctor Specialization and Birth Statistics
 
-**Description:""**
+**Description:**
 This query counts how many births each doctor performed grouped by their specialization and calculates the average mother age for births they attended. It provides insights into doctor workload distribution across different specializations.
 
-**SQL Query:""**
-```sql""
+**SQL Query:**
+```sql
 SELECT 
    doctor_specialization,
    COUNT(DISTINCT doctor_id) as doctor_count,
@@ -794,17 +796,17 @@ SELECT
 FROM births_summary_view
 GROUP BY doctor_specialization
 ORDER BY total_births DESC;
-```""
+```
 
 ![Query 1 Output](./stage3/Views/births_summary_view/Query1_output.png)
 
-#### Query 2: Recent Normal Births by Experienced Doctors""
+#### Query 2: Recent Normal Births by Experienced Doctors
 
-**Description:""**
+**Description:**
 This query identifies normal births performed in the last 6 months by doctors with at least 10 years of seniority. It helps track routine deliveries handled by experienced medical staff.
 
-**SQL Query:""**
-```sql""
+**SQL Query:**
+```sql
 SELECT 
    doctor_name,
    doctor_seniority,
@@ -817,34 +819,34 @@ WHERE birth_type = 'Normal'
    AND birth_date >= CURRENT_DATE - INTERVAL '6 months'
    AND doctor_seniority >= 10
 ORDER BY birth_date DESC;
-```""
+```
 
 ![Query 2 Output](./stage3/Views/births_summary_view/Query2_output.png)
 
-### Department Equipment Orders View""
+### Department Equipment Orders View
 
-**View Description:""**
+**View Description:**
 The `department_equipment_orders_view` consolidates equipment order information from the logistics database. It provides a unified view of all medical equipment orders placed by different departments, including order status and urgency flags.
 
-**View Structure:""**
+**View Structure:**
 - Combines equipment order items from `equipment_order_item` table
 - Includes order ID, department ID, equipment ID, quantity, status, and urgency flag
 - Designed for analyzing equipment order history by departments
 
-**Sample Data from View:""**
-```sql""
+**Sample Data from View:**
+```sql
 SELECT * FROM department_equipment_orders_view LIMIT 10;
-```""
+```
 
 ![Department Equipment Orders View Output](./stage3/Views/department_equipment_orders_view/view_output.png)
 
-#### Query 1: Unfulfilled Equipment Demand by Department""
+#### Query 1: Unfulfilled Equipment Demand by Department
 
-**Description:""**
+**Description:**
 This query shows for each department how much equipment of each type they ordered (that hasn't been delivered yet) and counts how many of these orders are urgent. It helps prioritize urgent orders and understand unmet demand for each equipment type.
 
-**SQL Query:""**
-```sql""
+**SQL Query:**
+```sql
 SELECT 
    department_id,
    equipment_id,
@@ -855,17 +857,17 @@ FROM department_equipment_orders_view
 WHERE status != 'Delivered'
 GROUP BY department_id, equipment_id
 ORDER BY urgent_orders DESC, total_quantity_ordered DESC;
-```""
+```
 
 ![Query 1 Output](./stage3/Views/department_equipment_orders_view/Query1_output.png)
 
-#### Query 2: Equipment Orders from High-Priority Departments""
+#### Query 2: Equipment Orders from High-Priority Departments
 
-**Description:""**
+**Description:**
 This query identifies equipment orders from departments with emergency level 3 or higher. It provides information about the ordering department, equipment name, quantity, urgency status, and order status.
 
-**SQL Query:""**
-```sql""
+**SQL Query:**
+```sql
 SELECT 
    d.department_id,
    d.department_name,
@@ -878,13 +880,13 @@ JOIN department d ON deo.department_id = d.department_id
 JOIN medical_equipment e ON deo.equipment_id = e.equipment_id
 WHERE d.emergency_level >= 3
 ORDER BY deo.is_urgent DESC, deo.quantity DESC;
-```""
+```
 
 ![Query 2 Output](./stage3/Views/department_equipment_orders_view/Query2_output.png)
 
-## Project Structure for Stage 3""
+## Project Structure for Stage 3
 
-```""
+```
 stage3/
 ├── backup/
 │   └── backup3
@@ -912,9 +914,9 @@ stage3/
 │       ├── Query2_output.png
 │       └── view_output.png
 └── README.md
-```""
+```
 
-## Integration SQL Commands""
+## Integration SQL Commands
 
 The complete integration process is documented in the `integration.sql` file, which includes:
 - Table creation statements for the maternity_department specialization
