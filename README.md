@@ -766,59 +766,79 @@ ALTER TABLE attending_to ADD CONSTRAINT attending_to_room_fk
 ### Births Summary View
 
 **View Description:**
-The `births_summary_view` combines information about births, mothers, and doctors from the maternity department database. This view provides a comprehensive overview of birth records including mother details, doctor information, and birth outcomes.
+The `births_summary_view` joins birth records with mother and doctor information to provide a comprehensive view of all births. It connects births to mothers through the maternity table and to doctors through the midwife relationship.
 
 **View Structure:**
-- Retrieves all birth records from `birth_record` table
-- Joins with mother information from `maternity` table
-- Connects births to attending doctors through `midwife` table
-- Includes doctor details from `doctor` table
+- Retrieves birth records with their unique ID (`id_br`)
+- Includes mother details: name, age, and phone number
+- Shows birth and discharge dates
+- Includes delivery type information
+- Shows attending doctor details: name, birth specialty, and seniority
 
 **Sample Data from View:**
 ```sql
-SELECT * FROM births_summary_view LIMIT 10;
+SELECT br.id_br,
+    m.name AS mother_name,
+    m.age AS mother_age,
+    m.phone AS mother_phone,
+    br.birth_date,
+    br.discharge_date,
+    br.delivery_type,
+    d.name AS doctor_name,
+    d.birth_specialty,
+    d.seniority
+FROM birth_record br
+    JOIN maternity m ON br.id_m = m.id_m
+    JOIN midwife mw ON br.id_br = mw.id_br
+    JOIN doctor d ON mw.id_d = d.id_d;
 ```
 
 ![Births Summary View Output](./stage3/Views/births_summary_view/view_output.png)
 
-#### Query 1: Doctor Specialization and Birth Statistics
+#### Query 1: Birth Statistics by Doctor Specialty
 
 **Description:**
-This query counts how many births each doctor performed grouped by their specialization and calculates the average mother age for births they attended. It provides insights into doctor workload distribution across different specializations.
+This query analyzes birth statistics grouped by doctor's birth specialty and individual doctors. It counts total births per doctor within each specialty and calculates the average age of mothers they attended to, helping identify workload distribution and patient demographics across specialties.
 
 **SQL Query:**
 ```sql
 SELECT 
-   doctor_specialization,
-   COUNT(DISTINCT doctor_id) as doctor_count,
-   COUNT(record_id) as total_births,
-   ROUND(AVG(mother_age), 1) as avg_mother_age
-FROM births_summary_view
-GROUP BY doctor_specialization
-ORDER BY total_births DESC;
+    d.birth_specialty,
+    doctor_name,
+    COUNT(*) AS total_births,
+    ROUND(AVG(mother_age)::numeric, 1) AS avg_mother_age
+FROM 
+    births_summary_view d
+GROUP BY 
+    d.birth_specialty, doctor_name
+ORDER BY 
+    d.birth_specialty, total_births DESC;
 ```
 
 ![Query 1 Output](./stage3/Views/births_summary_view/Query1_output.png)
 
-#### Query 2: Recent Normal Births by Experienced Doctors
+#### Query 2: Recent Normal Births by Senior Doctors
 
 **Description:**
-This query identifies normal births performed in the last 6 months by doctors with at least 10 years of seniority. It helps track routine deliveries handled by experienced medical staff.
+This query identifies Normal births performed in the last 6 months by doctors with at least 10 years of seniority. It shows doctor information along with mother details and hospitalization dates, useful for tracking experienced doctors handling standard deliveries.
 
 **SQL Query:**
 ```sql
 SELECT 
-   doctor_name,
-   doctor_seniority,
-   birth_date,
-   mother_name,
-   mother_age,
-   birth_type
-FROM births_summary_view
-WHERE birth_type = 'Normal'
-   AND birth_date >= CURRENT_DATE - INTERVAL '6 months'
-   AND doctor_seniority >= 10
-ORDER BY birth_date DESC;
+    doctor_name,
+    seniority,
+    mother_name,
+    birth_date,
+    discharge_date
+FROM 
+    births_summary_view
+WHERE 
+    delivery_type = 'Normal'
+    AND birth_date >= CURRENT_DATE - INTERVAL '6 months'
+    AND birth_date <= CURRENT_DATE
+    AND seniority >= 10
+ORDER BY 
+    birth_date DESC;
 ```
 
 ![Query 2 Output](./stage3/Views/births_summary_view/Query2_output.png)
@@ -826,60 +846,85 @@ ORDER BY birth_date DESC;
 ### Department Equipment Orders View
 
 **View Description:**
-The `department_equipment_orders_view` consolidates equipment order information from the logistics database. It provides a unified view of all medical equipment orders placed by different departments, including order status and urgency flags.
+The `department_equipment_orders_view` provides a comprehensive view of all equipment orders placed by departments. It joins order information with department and equipment details, including order status and urgency flags.
 
 **View Structure:**
-- Combines equipment order items from `equipment_order_item` table
-- Includes order ID, department ID, equipment ID, quantity, status, and urgency flag
-- Designed for analyzing equipment order history by departments
+- Combines orders from the Order table with department information
+- Joins with equipment_order_item for order details
+- Includes medical equipment names and specifications
+- Shows order amounts, urgency status, build requirements, and delivery status
 
 **Sample Data from View:**
 ```sql
-SELECT * FROM department_equipment_orders_view LIMIT 10;
+SELECT o.order_id,
+    o.department_id,
+    d.name AS department_name,
+    eoi.medical_equipment_id,
+    me.name AS equipment_name,
+    eoi.amount,
+    eoi.is_urgent,
+    eoi.need_to_be_built,
+    eoi.status
+FROM "Order" o
+    JOIN department d ON o.department_id = d.department_id
+    JOIN equipment_order_item eoi ON o.order_id = eoi.order_id AND o.department_id = eoi.department_id
+    JOIN medical_equipment me ON eoi.medical_equipment_id = me.medical_equipment_id;
 ```
 
 ![Department Equipment Orders View Output](./stage3/Views/department_equipment_orders_view/view_output.png)
 
-#### Query 1: Unfulfilled Equipment Demand by Department
+#### Query 1: Undelivered Equipment Summary by Department
 
 **Description:**
-This query shows for each department how much equipment of each type they ordered (that hasn't been delivered yet) and counts how many of these orders are urgent. It helps prioritize urgent orders and understand unmet demand for each equipment type.
+This query provides a summary of all undelivered equipment orders grouped by department and equipment type. It calculates total quantities requested and counts how many orders are marked as urgent, helping prioritize fulfillment based on urgency and volume.
 
 **SQL Query:**
 ```sql
 SELECT 
-   department_id,
-   equipment_id,
-   SUM(quantity) as total_quantity_ordered,
-   COUNT(CASE WHEN is_urgent = TRUE THEN 1 END) as urgent_orders,
-   COUNT(*) as total_orders
-FROM department_equipment_orders_view
-WHERE status != 'Delivered'
-GROUP BY department_id, equipment_id
-ORDER BY urgent_orders DESC, total_quantity_ordered DESC;
+    deo.department_id,
+    d.name AS department_name,
+    me.name AS equipment_name,
+    SUM(deo.amount) AS total_requested,
+    COUNT(*) FILTER (WHERE deo.is_urgent) AS urgent_count
+FROM 
+    department_equipment_orders_view deo
+JOIN 
+    department d ON deo.department_id = d.department_id
+JOIN 
+    medical_equipment me ON deo.medical_equipment_id = me.medical_equipment_id
+WHERE 
+    deo.status <> 'delivered'
+GROUP BY 
+    deo.department_id, d.name, me.name
+ORDER BY 
+    deo.department_id, me.name;
 ```
 
 ![Query 1 Output](./stage3/Views/department_equipment_orders_view/Query1_output.png)
 
-#### Query 2: Equipment Orders from High-Priority Departments
+#### Query 2: High Emergency Department Orders
 
 **Description:**
-This query identifies equipment orders from departments with emergency level 3 or higher. It provides information about the ordering department, equipment name, quantity, urgency status, and order status.
+This query identifies equipment orders from departments with emergency level 3 or higher. It displays department names, equipment details, quantities, urgency flags, and order status, prioritizing by urgency and quantity to ensure critical departments receive necessary equipment.
 
 **SQL Query:**
 ```sql
 SELECT 
-   d.department_id,
-   d.department_name,
-   e.equipment_name,
-   deo.quantity,
-   deo.is_urgent,
-   deo.status
-FROM department_equipment_orders_view deo
-JOIN department d ON deo.department_id = d.department_id
-JOIN medical_equipment e ON deo.equipment_id = e.equipment_id
-WHERE d.emergency_level >= 3
-ORDER BY deo.is_urgent DESC, deo.quantity DESC;
+    deo.department_id,
+    d.name AS department_name,
+    deo.equipment_name,
+    deo.amount,
+    deo.is_urgent,
+    deo.status
+FROM 
+    department_equipment_orders_view deo
+JOIN 
+    public.department d ON deo.department_id = d.department_id
+WHERE 
+    d.emergency_level >= 3
+ORDER BY 
+    deo.is_urgent DESC,
+    deo.amount DESC;
 ```
 
 ![Query 2 Output](./stage3/Views/department_equipment_orders_view/Query2_output.png)
