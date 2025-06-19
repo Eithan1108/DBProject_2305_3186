@@ -982,11 +982,15 @@ This integration successfully combines the medical equipment logistics system wi
 
 
 
-
 # 📄 Project Report – Stage 4
 
 ## Overview
-In this stage, we implemented a set of PL/pgSQL programs operating on our extended PostgreSQL database. The programs include functions, procedures, triggers, and main execution blocks. These scripts demonstrate dynamic behavior in response to inserts, data aggregation, and procedural updates.
+This stage includes writing non-trivial PL/pgSQL programs on the extended PostgreSQL database.  
+We implemented two functions, two procedures, two triggers, and two main programs that call both a function and a procedure each.  
+
+The logic responds to relevant changes in the data:  
+- Promotions of doctors based on top 5 births per department.  
+- Refreshing drug popularity based on orders.  
 
 ---
 
@@ -994,120 +998,127 @@ In this stage, we implemented a set of PL/pgSQL programs operating on our extend
 
 ### 🔧 Functions
 
-#### 1. [`fn_get_top5_doctors.sql`](Code/Functions/fn_get_top5_doctors.sql)
+#### 1. [`fn_get_top5_doctors.sql`](stage%204/Code/Functions/fn_get_top5_doctors.sql)
 - **Description:**  
   Returns the top 5 doctors with the highest number of births in a given department.
 - **Key features:**  
-  Uses `RETURN QUERY`, aggregation (`COUNT`), grouping, and sorting.
-- **Proof of execution:**  
-  ![not_top_5](Images/Doctors/not_top_5.jpg)  
-  *Doctor with ID 85122 is not yet in the top 5.*  
+  Uses `RETURN QUERY`, `COUNT`, `GROUP BY`, `ORDER BY`, and `LIMIT`.
 
-  ![after](Images/Doctors/after.jpg)  
-  *After insert, doctor enters the top 5.*  
+- **Proof of execution:**
 
-  ![seniority_1](Images/Doctors/seniority_1.jpg)  
-  *Doctor’s seniority was initially 1.*  
+  ![not_top_5](stage%204/Images/Doctors/not_top_5.jpg)  
+  *Doctor with ID 85122 is not yet in the top 5.*
 
-  ![tr_seniority_4](Images/Doctors/tr_seniority_4.jpg)  
+  ![after](stage%204/Images/Doctors/after.jpg)  
+  *After insert, doctor enters the top 5.*
+
+  ![seniority_1](stage%204/Images/Doctors/seniority_1.jpg)  
+  *Doctor’s seniority was initially 1.*
+
+  ![tr_seniority_4](stage%204/Images/Doctors/tr_seniority_4.jpg)  
   *Seniority updated to 4 after promotion.*
 
 ---
 
-#### 2. [`fn_popular_score.sql`](Code/Functions/fn_popular_score.sql)
+#### 2. [`fn_popular_score.sql`](stage%204/Code/Functions/fn_popular_score.sql)
 - **Description:**  
-  Calculates the popularity score of a drug by determining the percentage of orders that include it.
+  Calculates the popularity score of a drug based on its frequency in orders.
 - **Key features:**  
-  Arithmetic computation, conditional logic (`IF`), implicit cursors via `SELECT INTO`.
-- **Proof of execution:**  
-  ![before](Images/Drugs/before.jpg)  
-  *Initial popularity score.*  
+  Uses arithmetic, `IF` statements, `SELECT INTO`, and numeric conversion.
 
-  ![after](Images/Drugs/after.jpg)  
-  *Updated score after function and procedure execution.*
+- **Proof of execution:**
+
+  ![before](stage%204/Images/Drugs/before.jpg)  
+  *Drug’s popularity score before update.*
+
+  ![after](stage%204/Images/Drugs/after.jpg)  
+  *Popularity score after refresh.*
 
 ---
 
 ### 🔁 Procedures
 
-#### 1. [`pr_promote_busy_doctors.sql`](Code/Procedures/pr_promote_busy_doctors.sql)
+#### 1. [`pr_promote_busy_doctors.sql`](stage%204/Code/Procedures/pr_promote_busy_doctors.sql)
 - **Description:**  
-  Increments the seniority of doctors who are currently in the top 5 births list in each department.
+  Increases seniority for top 5 doctors per department.
 - **Key features:**  
-  Nested loops, cursor iteration over departments and top doctors, data updates.
-- **Proof of execution:**  
-  ![seniority_1](Images/Doctors/seniority_1.jpg)  
-  *Seniority before update.*  
+  Nested loops, cursor-based iteration over departments, conditional update.
 
-  ![tr_seniority_4](Images/Doctors/tr_seniority_4.jpg)  
+- **Proof of execution:**
+
+  ![seniority_1](stage%204/Images/Doctors/seniority_1.jpg)  
+  *Seniority before promotion.*
+
+  ![tr_seniority_4](stage%204/Images/Doctors/tr_seniority_4.jpg)  
   *Seniority after promotion.*
 
 ---
 
-#### 2. [`pr_refresh_drug_popularity.sql`](Code/Procedures/pr_refresh_drug_popularity.sql)
+#### 2. [`pr_refresh_drug_popularity.sql`](stage%204/Code/Procedures/pr_refresh_drug_popularity.sql)
 - **Description:**  
-  Updates the `popularity_score` column in the `drug` table based on current order data. Accepts a specific drug ID or processes all drugs.
+  Recalculates and updates the `popularity_score` column for a specific drug or all drugs.
 - **Key features:**  
-  Optional parameters (`DEFAULT NULL`), looping, exception-safe function usage, multiple updates.
-- **Proof of execution:**  
-  ![before](Images/Drugs/before.jpg)  
-  *Drug’s popularity score before update.*  
+  Optional parameter, loop over all rows, exception safety, DML updates.
 
-  ![after](Images/Drugs/after.jpg)  
-  *Score after manual and triggered refresh.*
+- **Proof of execution:**
+
+  ![before](stage%204/Images/Drugs/before.jpg)  
+  ![after](stage%204/Images/Drugs/after.jpg)
 
 ---
 
 ### 🔥 Triggers
 
-#### 1. [`trg_doctor_promotion_func.sql`](Code/Trigers/trg_doctor_promotion_func.sql)
+#### 1. [`trg_doctor_promotion_func.sql`](stage%204/Code/Trigers/trg_doctor_promotion_func.sql)
 - **Description:**  
-  Triggered after inserting a new birth record (via `midwife`), it calls the procedure to promote busy doctors.
+  Triggered after insert on `midwife`. Automatically promotes busy doctors.
 - **Key features:**  
-  Trigger function with `AFTER INSERT`, automatic procedure call.
+  Trigger + procedure call + indirect effect on `doctor` table.
 
 ---
 
-#### 2. [`trg_update_drug_popularity_func.sql`](Code/Trigers/trg_update_drug_popularity_func.sql)
+#### 2. [`trg_update_drug_popularity_func.sql`](stage%204/Code/Trigers/trg_update_drug_popularity_func.sql)
 - **Description:**  
-  Triggered after insert or delete on `drug_order_item`, to refresh the popularity score of affected drugs.
+  Triggered after insert/delete on `drug_order_item`. Recalculates drug popularity.
 - **Key features:**  
-  Use of `TG_OP`, dynamic handling of old/new values, optional logic based on event type.
+  Uses `TG_OP`, works for both insert and delete, calls procedure.
 
 ---
 
 ### ▶️ Main Programs
 
-#### 1. [`main1.sql`](Code/Main/main1.sql)
+#### 1. [`main1.sql`](stage%204/Code/Main/main1.sql)
 - **Description:**  
-  Displays the top 5 doctors in department 341 before and after promotion, using `fn_get_top5_doctors()` and `pr_promote_busy_doctors()`.
-- **Execution Proof:**  
-  ![not_top_5](Images/Doctors/not_top_5.jpg)  
-  ![after](Images/Doctors/after.jpg)  
-  ![seniority_1](Images/Doctors/seniority_1.jpg)  
-  ![tr_seniority_4](Images/Doctors/tr_seniority_4.jpg)
+  Shows top 5 doctors before and after promotion.  
+  Calls:  
+  - `fn_get_top5_doctors()`  
+  - `pr_promote_busy_doctors()`
 
----
+- **Proof of Execution:**
+  See related images under **Doctors** folder.
 
-#### 2. [`main2.sql`](Code/Main/main2.sql)
+#### 2. [`main2.sql`](stage%204/Code/Main/main2.sql)
 - **Description:**  
-  Calls `fn_popular_score()` to compute a score dynamically, followed by `pr_refresh_drug_popularity()` to persist the value.
-- **Execution Proof:**  
-  ![before](Images/Drugs/before.jpg)  
-  ![after](Images/Drugs/after.jpg)
+  Dynamically calculates popularity score and then persists it.  
+  Calls:  
+  - `fn_popular_score()`  
+  - `pr_refresh_drug_popularity()`
+
+- **Proof of Execution:**
+  See images under **Drugs** folder.
 
 ---
 
 ## 🛠️ Table Modifications
 
-No schema changes were required in this stage.  
-If applied, `ALTER TABLE` statements will be added to a file named `AlterTable.sql`.
+No schema changes were needed in this stage.  
+If any arise later, changes will be stored in `stage 4/AlterTable.sql`.
 
 ---
 
 ## 💾 Backup File
 
-The file [`backup4`](Backup/backup4) contains the full database backup after completion of stage 4.
+Located at: [`stage 4/Backup/backup4`](stage%204/Backup/backup4)
 
 ---
 
