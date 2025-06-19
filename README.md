@@ -983,8 +983,6 @@ This integration successfully combines the medical equipment logistics system wi
 
 
 
-
-
 # 📄 Project Report – Stage 4
 
 ## Overview
@@ -1002,10 +1000,17 @@ In this stage, we implemented a set of PL/pgSQL programs operating on our extend
 - **Key features:**  
   Uses `RETURN QUERY`, aggregation (`COUNT`), grouping, and sorting.
 - **Proof of execution:**  
-  - [`not_top_5.jpg`](Images/Doctors/not_top_5.jpg): Doctor with ID 85122 is not yet in the top 5.  
-  - [`after.jpg`](Images/Doctors/after.jpg): After insert, doctor enters the top 5.  
-  - [`seniority_1.jpg`](Images/Doctors/seniority_1.jpg): Doctor’s seniority was initially 1.  
-  - [`tr_seniority_4.jpg`](Images/Doctors/tr_seniority_4.jpg): Seniority updated to 4 after promotion.
+  ![not_top_5](Images/Doctors/not_top_5.jpg)  
+  *Doctor with ID 85122 is not yet in the top 5.*  
+
+  ![after](Images/Doctors/after.jpg)  
+  *After insert, doctor enters the top 5.*  
+
+  ![seniority_1](Images/Doctors/seniority_1.jpg)  
+  *Doctor’s seniority was initially 1.*  
+
+  ![tr_seniority_4](Images/Doctors/tr_seniority_4.jpg)  
+  *Seniority updated to 4 after promotion.*
 
 ---
 
@@ -1015,8 +1020,11 @@ In this stage, we implemented a set of PL/pgSQL programs operating on our extend
 - **Key features:**  
   Arithmetic computation, conditional logic (`IF`), implicit cursors via `SELECT INTO`.
 - **Proof of execution:**  
-  - [`before.jpg`](Images/Drugs/before.jpg): Initial popularity score.  
-  - [`after.jpg`](Images/Drugs/after.jpg): Updated score after function and procedure execution.
+  ![before](Images/Drugs/before.jpg)  
+  *Initial popularity score.*  
+
+  ![after](Images/Drugs/after.jpg)  
+  *Updated score after function and procedure execution.*
 
 ---
 
@@ -1028,8 +1036,11 @@ In this stage, we implemented a set of PL/pgSQL programs operating on our extend
 - **Key features:**  
   Nested loops, cursor iteration over departments and top doctors, data updates.
 - **Proof of execution:**  
-  - [`seniority_1.jpg`](Images/Doctors/seniority_1.jpg): Seniority before update.  
-  - [`tr_seniority_4.jpg`](Images/Doctors/tr_seniority_4.jpg): Seniority after promotion.
+  ![seniority_1](Images/Doctors/seniority_1.jpg)  
+  *Seniority before update.*  
+
+  ![tr_seniority_4](Images/Doctors/tr_seniority_4.jpg)  
+  *Seniority after promotion.*
 
 ---
 
@@ -1039,8 +1050,11 @@ In this stage, we implemented a set of PL/pgSQL programs operating on our extend
 - **Key features:**  
   Optional parameters (`DEFAULT NULL`), looping, exception-safe function usage, multiple updates.
 - **Proof of execution:**  
-  - [`before.jpg`](Images/Drugs/before.jpg): Drug’s popularity score before update.  
-  - [`after.jpg`](Images/Drugs/after.jpg): Score after manual and triggered refresh.
+  ![before](Images/Drugs/before.jpg)  
+  *Drug’s popularity score before update.*  
+
+  ![after](Images/Drugs/after.jpg)  
+  *Score after manual and triggered refresh.*
 
 ---
 
@@ -1068,8 +1082,10 @@ In this stage, we implemented a set of PL/pgSQL programs operating on our extend
 - **Description:**  
   Displays the top 5 doctors in department 341 before and after promotion, using `fn_get_top5_doctors()` and `pr_promote_busy_doctors()`.
 - **Execution Proof:**  
-  - [`not_top_5.jpg`](Images/Doctors/not_top_5.jpg) and [`after.jpg`](Images/Doctors/after.jpg) – Change in top 5 status.  
-  - [`seniority_1.jpg`](Images/Doctors/seniority_1.jpg) → [`tr_seniority_4.jpg`](Images/Doctors/tr_seniority_4.jpg) – Seniority change.
+  ![not_top_5](Images/Doctors/not_top_5.jpg)  
+  ![after](Images/Doctors/after.jpg)  
+  ![seniority_1](Images/Doctors/seniority_1.jpg)  
+  ![tr_seniority_4](Images/Doctors/tr_seniority_4.jpg)
 
 ---
 
@@ -1077,7 +1093,8 @@ In this stage, we implemented a set of PL/pgSQL programs operating on our extend
 - **Description:**  
   Calls `fn_popular_score()` to compute a score dynamically, followed by `pr_refresh_drug_popularity()` to persist the value.
 - **Execution Proof:**  
-  - [`before.jpg`](Images/Drugs/before.jpg) and [`after.jpg`](Images/Drugs/after.jpg) – Updated drug score shown.
+  ![before](Images/Drugs/before.jpg)  
+  ![after](Images/Drugs/after.jpg)
 
 ---
 
@@ -1090,34 +1107,7 @@ If applied, `ALTER TABLE` statements will be added to a file named `AlterTable.s
 
 ## 💾 Backup File
 
-The file [`backup4`](Backup/backup4) contains the full database backupstage4/
-├── Backup/
-│   └── backup4
-├── Code/
-│   ├── Functions/
-│   │   ├── fn_get_top5_doctors.sql
-│   │   └── fn_popular_score.sql
-│   ├── Main/
-│   │   ├── main1.sql
-│   │   └── main2.sql
-│   ├── Procedures/
-│   │   ├── pr_promote_busy_doctors.sql
-│   │   └── pr_refresh_drug_popularity.sql
-│   └── Trigers/
-│       ├── trg_doctor_promotion_func.sql
-│       └── trg_update_drug_popularity_func.sql
-├── Images/
-│   ├── Doctors/
-│   │   ├── after.jpg
-│   │   ├── not_top_5.jpg
-│   │   ├── seniority_1.jpg
-│   │   └── tr_seniority_4.jpg
-│   └── Drugs/
-│       ├── after.jpg
-│       └── before.jpg
-└── README.md
- after completion of stage 4.
+The file [`backup4`](Backup/backup4) contains the full database backup after completion of stage 4.
 
 ---
-
 
