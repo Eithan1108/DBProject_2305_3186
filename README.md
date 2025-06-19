@@ -1090,14 +1090,34 @@ If applied, `ALTER TABLE` statements will be added to a file named `AlterTable.s
 
 ## 💾 Backup File
 
-The file [`backup4`](Backup/backup4) contains the full database backup after completion of stage 4.
+The file [`backup4`](Backup/backup4) contains the full database backupstage4/
+├── Backup/
+│   └── backup4
+├── Code/
+│   ├── Functions/
+│   │   ├── fn_get_top5_doctors.sql
+│   │   └── fn_popular_score.sql
+│   ├── Main/
+│   │   ├── main1.sql
+│   │   └── main2.sql
+│   ├── Procedures/
+│   │   ├── pr_promote_busy_doctors.sql
+│   │   └── pr_refresh_drug_popularity.sql
+│   └── Trigers/
+│       ├── trg_doctor_promotion_func.sql
+│       └── trg_update_drug_popularity_func.sql
+├── Images/
+│   ├── Doctors/
+│   │   ├── after.jpg
+│   │   ├── not_top_5.jpg
+│   │   ├── seniority_1.jpg
+│   │   └── tr_seniority_4.jpg
+│   └── Drugs/
+│       ├── after.jpg
+│       └── before.jpg
+└── README.md
+ after completion of stage 4.
 
 ---
 
-## 🏷 Git Tag
 
-Make sure to tag this stage in Git using:
-
-```bash
-git tag stage-4
-git push origin stage-4
