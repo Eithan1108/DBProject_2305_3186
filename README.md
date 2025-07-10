@@ -1278,3 +1278,166 @@ All programs have been thoroughly tested and validated:
 
 ## Conclusion
 This stage successfully demonstrates advanced PL/pgSQL programming techniques including complex queries, stored procedures, functions, triggers, and comprehensive error handling. The implementation showcases real-world database programming scenarios with automatic promotion systems and popularity tracking mechanisms.
+
+
+# Stage 5: Graphical User Interface (GUI)
+
+The fifth and final stage of the project is the development of a graphical user interface (GUI) that serves as an interactive front‑end for our robust database system. The application is designed to provide an intuitive, role‑based experience for logistics personnel and managers, translating complex database operations into accessible visual components.
+
+---
+
+## Tools and Technologies
+
+The application was built using the following stack:
+
+* **Programming Language:** Python 3
+* **GUI Framework:** PySide6 (The official Qt for Python project), chosen for its powerful tools for creating modern, responsive desktop applications.
+* **Database Connector:** psycopg2, the most popular PostgreSQL database adapter for Python.
+* **Styling:** Qt Style Sheets (QSS), a CSS‑like mechanism used to apply a custom, professional visual theme across the entire application.
+
+---
+
+## Installation and Execution Guide
+
+### Prerequisites
+
+* Python 3 installed on your system.
+* A running PostgreSQL server instance.
+* The project database (from Stages 1‑4) must be created and populated with data.
+
+### Installation Steps
+
+1. **Clone the Repository**
+   Clone the project repository to your local machine.
+
+2. **Install Dependencies**
+   Open a terminal or command prompt in the project’s root directory and run:
+
+   ```bash
+   pip install PySide6 psycopg2-binary matplotlib
+   ```
+
+3. **Configure Database Connection**
+   Ensure the database connection string in `main.py` matches your local PostgreSQL server configuration.
+   Open `main.py` and locate the following line:
+
+   ```python
+   DB_DSN = "dbname=integration user=eitan password=ekfl2345 host=localhost port=5432"
+   ```
+
+   Modify the `user`, `password`, `host`, `port`, and `dbname` values as needed.
+
+### Running the Application
+
+Once the setup is complete, run the following command from the project’s root directory:
+
+```bash
+python main.py
+```
+
+---
+
+## Application Features & User Guide
+
+The application provides a comprehensive interface for interacting with the hospital logistics database. The user experience is tailored based on the authenticated user’s role (**Logistics Worker** or **Manager**).
+
+### 1. Secure Login Screen
+
+![Secure Login Screen](stage5/login.jpg)
+
+**Functionality:** This screen serves as the secure entry point to the system. It authenticates the user’s identity against the `logistic_worker` table and determines their access level (standard worker or manager) by checking their permissions in the `has_access` table.
+
+**How to Use:**
+
+1. Enter your unique Worker ID into the input field.
+2. Click the **"Log In Securely"** button or press the **Enter** key.
+3. Upon successful authentication, you will be directed to the main application **Dashboard**. If the ID is invalid, an error message will be displayed.
+
+### 2. Dynamic Dashboard
+
+![Dynamic Dashboard](stage5/dash.jpg)
+
+**Functionality:** The main landing page after login, the Dashboard provides a high‑level, real‑time overview of the logistics operations. It is designed to give users an immediate snapshot of the system’s status and highlight critical issues.
+
+**How to Use:**
+
+* **Quick Stats:** The top panel displays key performance indicators (KPIs), including the total number of warehouses, active orders, workers, and pending items.
+* **Alert Cards:** The main area features color‑coded cards that automatically display critical information, powered by the complex `SELECT` queries developed in Stage 2.
+
+  * **Stock Shortages (Red):** Displays items where the total ordered amount exceeds the available stock (lack of stock query).
+  * **Urgent Orders (Red):** Highlights departments that have pending urgent orders (Urgent items for each department query).
+  * **Expiring Soon (Yellow):** Lists drugs that are within 30 days of their expiration date (Medicines in danger of expiring query).
+* This screen is read‑only and is designed for quick operational awareness.
+
+### 3. "My Warehouses" Tab
+
+![My Warehouses](stage5/solo_ware.jpg)
+
+
+**Functionality:** This tab provides a personalized view of the inventory in warehouses that the logged‑in worker has access to.
+
+**How to Use:**
+
+1. The list on the left displays all warehouses you are permitted to access, fetched based on your `logistic_worker_id` and the `has_access` table.
+2. Click on a warehouse name from the list.
+3. The panel on the right will dynamically update to show a detailed list of all items (drugs or equipment) currently in stock in the selected warehouse, including quantities and other relevant details like shelf life.
+
+### 4. "View Orders" Tab
+
+
+**Functionality:** This tab allows users to view and track orders. The scope of visible orders depends on the user’s role.
+
+**How to Use:**
+
+![All Users](stage5/solo_orders.jpg)
+* **My Department Orders (All Users):** The main view shows a list of orders associated with the departments the logged‑in user works for. Clicking on an order card on the left displays its constituent items (drugs and equipment) in the right‑hand panel.
+![Managers Only](stage5/all_orders.jpg)
+* **View All Orders (Managers Only):** Within the **"Management & Analytics"** tab, managers have access to a sub‑tab that displays all orders across the entire hospital. The interaction is the same: select an order to view its details.
+
+### 5. "Management & Analytics" Tab (Managers Only)
+
+**Functionality:** This is the command center for managers, providing advanced tools for data management and system analysis. It directly exposes the power of the database’s backend logic (Views, Functions, and Procedures from Stages 3 & 4).
+
+This section is divided into several sub‑tabs:
+
+#### a. Data Management (CRUD Screens)
+
+These tabs provide full **Create, Read, Update, and Delete (CRUD)** capabilities for core system entities.
+
+**How to Use:**
+
+![workers_crud](stage5/workers_crud.jpg)
+![ware_crud](stage5/ware_crud.jpg)
+![access_crud](stage5/access_crud.jpg)
+
+
+1. **View Data:** The table displays all current records. You can sort by any column by clicking its header.
+2. **Search:** Use the search bar to filter the table in real‑time.
+3. **Add a New Record:** Fill out the form fields below the table and click the **"Add"** button.
+4. **Update a Record:** Click a row in the table to populate the form with its data. Modify the data as needed and click the **"Update"** button.
+5. **Delete a Record:** Select a row in the table and click the **"Delete"** button. A confirmation dialog will appear.
+
+#### b. Analytics & Procedures
+
+![generall_repo.jpg](stage5/generall_repo.jpg)
+
+**Functionality:** This powerful section allows managers to run complex analytical reports and execute administrative procedures with a single click, directly calling the PL/pgSQL functions and procedures developed in Stage 4.
+
+**How to Use:**
+
+![doc_func](stage5/doc_func.jpg)
+![drug_func](stage5/drug_func.jpg)
+
+* **Running Reports (Functions):**
+  Clicking a report button like **"Get Drug Popularity"** or **"Get Top 5 Doctors"** executes a database function (`fn_popular_score` or `fn_get_top5_doctors` respectively) with the specified parameters.
+  The results of the function are immediately displayed in the table below, providing instant data‑driven insights. This allows managers to analyze performance without needing to write any SQL.
+
+![drug_func](stage5/doc_pro.jpg)
+![drug_pro](stage5/drug_pro.jpg)
+
+* **Executing Procedures:**
+  Clicking a procedure button like **"Promote Busy Doctors"** or **"Refresh All Drug Popularity Scores"** executes a database procedure (`pr_promote_busy_doctors` or `pr_refresh_drug_popularity`).
+  These procedures perform complex business logic and DML operations directly on the database (e.g., updating seniority for multiple doctors).
+  A success message will appear upon completion, confirming that the automated task has been executed.
+
+This tab effectively bridges the gap between a simple data‑entry application and a powerful business intelligence tool.
