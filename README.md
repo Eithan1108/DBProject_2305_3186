@@ -1311,11 +1311,18 @@ The application was built using the following stack:
    Clone the project repository to your local machine.
 
 2. **Install Dependencies**
+
    Open a terminal or command prompt in the project’s root directory and run:
 
    ```bash
    pip install PySide6 psycopg2-binary matplotlib
    ```
+
+   Or:
+      ```bash
+   pip install -r requirements.txt
+   ```
+   
 
 3. **Configure Database Connection**
    Ensure the database connection string in `main.py` matches your local PostgreSQL server configuration.
@@ -1343,7 +1350,7 @@ The application provides a comprehensive interface for interacting with the hosp
 
 ### 1. Secure Login Screen
 
-![Secure Login Screen](stage5/login.jpg)
+![Secure Login Screen](stage5/Images/login.jpg)
 
 **Functionality:** This screen serves as the secure entry point to the system. It authenticates the user’s identity against the `logistic_worker` table and determines their access level (standard worker or manager) by checking their permissions in the `has_access` table.
 
@@ -1355,7 +1362,7 @@ The application provides a comprehensive interface for interacting with the hosp
 
 ### 2. Dynamic Dashboard
 
-![Dynamic Dashboard](stage5/dash.jpg)
+![Dynamic Dashboard](stage5/Images/dash.jpg)
 
 **Functionality:** The main landing page after login, the Dashboard provides a high‑level, real‑time overview of the logistics operations. It is designed to give users an immediate snapshot of the system’s status and highlight critical issues.
 
@@ -1371,7 +1378,7 @@ The application provides a comprehensive interface for interacting with the hosp
 
 ### 3. "My Warehouses" Tab
 
-![My Warehouses](stage5/solo_ware.jpg)
+![My Warehouses](stage5/Images/solo_ware.jpg)
 
 
 **Functionality:** This tab provides a personalized view of the inventory in warehouses that the logged‑in worker has access to.
@@ -1389,9 +1396,9 @@ The application provides a comprehensive interface for interacting with the hosp
 
 **How to Use:**
 
-![All Users](stage5/solo_orders.jpg)
+![All Users](stage5/Images/solo_orders.jpg)
 * **My Department Orders (All Users):** The main view shows a list of orders associated with the departments the logged‑in user works for. Clicking on an order card on the left displays its constituent items (drugs and equipment) in the right‑hand panel.
-![Managers Only](stage5/all_orders.jpg)
+![Managers Only](stage5/Images/all_orders.jpg)
 * **View All Orders (Managers Only):** Within the **"Management & Analytics"** tab, managers have access to a sub‑tab that displays all orders across the entire hospital. The interaction is the same: select an order to view its details.
 
 ### 5. "Management & Analytics" Tab (Managers Only)
@@ -1406,9 +1413,9 @@ These tabs provide full **Create, Read, Update, and Delete (CRUD)** capabilities
 
 **How to Use:**
 
-![workers_crud](stage5/workers_crud.jpg)
-![ware_crud](stage5/ware_crud.jpg)
-![access_crud](stage5/access_crud.jpg)
+![workers_crud](stage5/Images/workers_crud.jpg)
+![ware_crud](stage5/Images/ware_crud.jpg)
+![access_crud](stage5/Images/access_crud.jpg)
 
 
 1. **View Data:** The table displays all current records. You can sort by any column by clicking its header.
@@ -1419,21 +1426,21 @@ These tabs provide full **Create, Read, Update, and Delete (CRUD)** capabilities
 
 #### b. Analytics & Procedures
 
-![generall_repo.jpg](stage5/generall_repo.jpg)
+![generall_repo.jpg](stage5/Images/generall_repo.jpg)
 
 **Functionality:** This powerful section allows managers to run complex analytical reports and execute administrative procedures with a single click, directly calling the PL/pgSQL functions and procedures developed in Stage 4.
 
 **How to Use:**
 
-![doc_func](stage5/doc_func.jpg)
-![drug_func](stage5/drug_func.jpg)
+![doc_func](stage5/Images/doc_func.jpg)
+![drug_func](stage5/Images/drug_func.jpg)
 
 * **Running Reports (Functions):**
   Clicking a report button like **"Get Drug Popularity"** or **"Get Top 5 Doctors"** executes a database function (`fn_popular_score` or `fn_get_top5_doctors` respectively) with the specified parameters.
   The results of the function are immediately displayed in the table below, providing instant data‑driven insights. This allows managers to analyze performance without needing to write any SQL.
 
-![drug_func](stage5/doc_pro.jpg)
-![drug_pro](stage5/drug_pro.jpg)
+![drug_func](stage5/Images/doc_pro.jpg)
+![drug_pro](stage5/Images/drug_pro.jpg)
 
 * **Executing Procedures:**
   Clicking a procedure button like **"Promote Busy Doctors"** or **"Refresh All Drug Popularity Scores"** executes a database procedure (`pr_promote_busy_doctors` or `pr_refresh_drug_popularity`).
