@@ -7,7 +7,7 @@ from typing import List, Tuple, Union, Callable, Optional
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_qtagg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
-import matplotlib.style as mplstyle
+import matplotlib.style as mplstyle 
 mplstyle.use('fast')
 import psycopg2
 from PySide6 import QtGui
